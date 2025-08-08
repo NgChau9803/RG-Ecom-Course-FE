@@ -22,3 +22,16 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables
+.env
+.env.*
+
+# Vite
+.vite/
+
+# Test coverage
+coverage/
+
+# OS-generated files
+Thumbs.db
