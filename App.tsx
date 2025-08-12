@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import type { Course, CourseRecommendation } from './types';
-import { useCourses } from './hooks/useCourses';
-import Header from './components/Header';
-import HomePage from './pages/HomePage';
-import CoursesPage from './pages/CoursesPage';
-import FavoritesPage from './pages/FavoritesPage';
-import SettingsPage from './pages/SettingsPage';
-import CourseModal from './components/CourseModal';
+import React, { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import type { Course, CourseRecommendation } from "./types";
+import { useCourses } from "./hooks/useCourses";
+import Header from "./components/Header";
+import HomePage from "./pages/HomePage";
+import CoursesPage from "./pages/CoursesPage";
+import FavoritesPage from "./pages/FavoritesPage";
+import SettingsPage from "./pages/SettingsPage";
+import CourseModal from "./components/CourseModal";
+import AdminLayout from "./components/admin/AdminLayout";
+import DashboardPage from "./pages/admin/DashboardPage";
+import UserManagementPage from "./pages/admin/UserManagementPage";
+import RoleManagementPage from "./pages/admin/RoleManagementPage";
+import CourseManagementPage from "./pages/admin/CourseManagementPage";
+import UserDetailPage from "./pages/admin/UserDetailPage";
 
 /**
  * The main application component.
@@ -15,7 +21,8 @@ import CourseModal from './components/CourseModal';
  */
 function App() {
   const courses = useCourses();
-  const [selectedCourse, setSelectedCourse] = useState<CourseRecommendation | null>(null);
+  const [selectedCourse, setSelectedCourse] =
+    useState<CourseRecommendation | null>(null);
 
   /**
    * Handles selecting a course to view its details in a modal.
@@ -38,10 +45,40 @@ function App() {
       <Header />
       <main className="flex-grow container mx-auto p-4 md:p-8 overflow-y-auto">
         <Routes>
-          <Route path="/" element={<HomePage courses={courses} onSelectCourse={handleSelectCourse} />} />
-          <Route path="/courses" element={<CoursesPage courses={courses} onSelectCourse={handleSelectCourse} />} />
-          <Route path="/favorites" element={<FavoritesPage courses={courses} onSelectCourse={handleSelectCourse} />} />
+          <Route
+            path="/"
+            element={
+              <HomePage courses={courses} onSelectCourse={handleSelectCourse} />
+            }
+          />
+          <Route
+            path="/courses"
+            element={
+              <CoursesPage
+                courses={courses}
+                onSelectCourse={handleSelectCourse}
+              />
+            }
+          />
+          <Route
+            path="/favorites"
+            element={
+              <FavoritesPage
+                courses={courses}
+                onSelectCourse={handleSelectCourse}
+              />
+            }
+          />
           <Route path="/settings" element={<SettingsPage />} />
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<DashboardPage />} />
+            <Route path="users" element={<UserManagementPage />} />
+            <Route path="users/:userId" element={<UserDetailPage />} />
+            <Route path="roles" element={<RoleManagementPage />} />
+            <Route path="courses" element={<CourseManagementPage />} />
+          </Route>
         </Routes>
       </main>
       <CourseModal
