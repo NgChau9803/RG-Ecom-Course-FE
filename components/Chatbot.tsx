@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import type { Course, ChatMessage } from "../types";
 import { getAiResponse, GeminiResponse } from "../services/geminiService";
 import CourseCard from "./CourseCard";
-import { SendIcon, UserIcon, BotIcon } from "./icons/Icons";
+import { Send, User, Bot } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useRecommendations } from "../contexts/RecommendationContext";
 import { useChat } from "../contexts/ChatContext";
@@ -131,7 +131,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
           >
             {msg.sender === "ai" && (
               <div className="flex-shrink-0 w-8 h-8 bg-primary-light dark:bg-primary/20 rounded-full flex items-center justify-center">
-                <BotIcon className="w-5 h-5 text-primary dark:text-gray-200" />
+                <Bot className="w-5 h-5 text-primary dark:text-gray-200" />
               </div>
             )}
             <div
@@ -166,7 +166,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
             </div>
             {msg.sender === "user" && (
               <div className="flex-shrink-0 w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center">
-                <UserIcon className="w-5 h-5 text-gray-600 dark:text-gray-200" />
+                <User className="w-5 h-5 text-gray-600 dark:text-gray-200" />
               </div>
             )}
           </div>
@@ -174,7 +174,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
         {isLoading && (
           <div className="flex items-end gap-3 justify-start">
             <div className="flex-shrink-0 w-8 h-8 bg-primary-light dark:bg-primary/20 rounded-full flex items-center justify-center">
-              <BotIcon className="w-5 h-5 text-primary dark:text-gray-200" />
+              <Bot className="w-5 h-5 text-primary dark:text-gray-200" />
             </div>
             <div
               className={`px-4 py-3 rounded-2xl bg-ai-bubble dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-bl-none`}
@@ -215,7 +215,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
             disabled={!inputValue.trim() || isLoading}
             className="flex-shrink-0 bg-primary text-white rounded-full p-3 hover:bg-primary-hover disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors"
           >
-            <SendIcon />
+            <Send />
           </button>
         </form>
       </div>

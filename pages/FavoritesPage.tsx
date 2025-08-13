@@ -2,7 +2,7 @@ import React from "react";
 import type { Course } from "../types";
 import { useAppSettings } from "../contexts/AppSettingsContext";
 import CourseCard from "../components/CourseCard";
-import { HeartIcon } from "../components/icons/Icons";
+import { Heart } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useRecommendations } from "../contexts/RecommendationContext";
 
@@ -26,12 +26,14 @@ const FavoritesPage: React.FC<FavoritesPageProps> = ({
   const { t } = useLanguage();
   const { recommendations } = useRecommendations();
 
+  // Filter courses to get only the favorite ones
   const favoriteCourses = courses.filter((course) =>
     favorites.includes(course.id)
   );
 
   return (
     <div className="animate-fade-in min-h-screen">
+      {/* Page Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100">
           {t("favorites.title")}
@@ -41,6 +43,7 @@ const FavoritesPage: React.FC<FavoritesPageProps> = ({
         </p>
       </div>
 
+      {/* Favorite Courses Grid */}
       {favoriteCourses.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {favoriteCourses.map((course) => {
@@ -60,8 +63,9 @@ const FavoritesPage: React.FC<FavoritesPageProps> = ({
           })}
         </div>
       ) : (
+        // Empty State when no favorites are selected
         <div className="text-center py-16 bg-white dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700">
-          <HeartIcon className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" />
+          <Heart className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" />
           <p className="mt-4 text-xl text-gray-500 dark:text-gray-400">
             {t("favorites.emptyTitle")}
           </p>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Course, User, Enrollment } from "../../types";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 interface EnrollmentDetailsModalProps {
   isOpen: boolean;
@@ -61,6 +62,7 @@ const EnrollmentDetailsModal: React.FC<EnrollmentDetailsModalProps> = ({
   onClose,
   course,
 }) => {
+  const { t } = useLanguage();
   if (!isOpen || !course) return null;
 
   const enrolledUsers = mockEnrollments
@@ -73,7 +75,7 @@ const EnrollmentDetailsModal: React.FC<EnrollmentDetailsModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-2xl w-full max-w-3xl">
-        <h2 className="text-2xl font-bold mb-2">Enrollments for:</h2>
+        <h2 className="text-2xl font-bold mb-2">{t("admin.courses.enrollments.title")}</h2>
         <h3 className="text-xl font-semibold mb-6 text-blue-600 dark:text-blue-400">
           {course.title}
         </h3>
@@ -83,9 +85,9 @@ const EnrollmentDetailsModal: React.FC<EnrollmentDetailsModalProps> = ({
             <table className="min-w-full bg-white dark:bg-gray-800">
               <thead>
                 <tr className="bg-gray-50 dark:bg-gray-700">
-                  <th className="py-2 px-4 text-left">Full Name</th>
-                  <th className="py-2 px-4 text-left">Email</th>
-                  <th className="py-2 px-4 text-left">Role</th>
+                  <th className="py-2 px-4 text-left">{t("admin.users.table.fullName")}</th>
+                  <th className="py-2 px-4 text-left">{t("admin.users.table.email")}</th>
+                  <th className="py-2 px-4 text-left">{t("admin.users.table.role")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -99,7 +101,7 @@ const EnrollmentDetailsModal: React.FC<EnrollmentDetailsModalProps> = ({
               </tbody>
             </table>
           ) : (
-            <p>No students or interns are enrolled in this course yet.</p>
+            <p>{t("admin.courses.enrollments.noEnrollments")}</p>
           )}
         </div>
 
@@ -108,7 +110,7 @@ const EnrollmentDetailsModal: React.FC<EnrollmentDetailsModalProps> = ({
             onClick={onClose}
             className="px-4 py-2 rounded-lg border hover:bg-gray-100 dark:hover:bg-gray-700"
           >
-            Close
+            {t("form.close")}
           </button>
         </div>
       </div>

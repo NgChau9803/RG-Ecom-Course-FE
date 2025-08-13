@@ -1,1 +1,0 @@
-rule set for vibe coding here

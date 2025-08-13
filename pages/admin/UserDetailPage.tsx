@@ -85,19 +85,28 @@ const mockEnrollments: Enrollment[] = [
 
 type EnrolledCourse = Course & { status: Enrollment["status"] };
 
+/**
+ * Displays detailed information about a specific user, including their
+ * profile and a list of courses they are enrolled in.
+ */
 const UserDetailPage: React.FC = () => {
   const { t } = useLanguage();
   const { userId } = useParams<{ userId: string }>();
+
+  // Find the user from the mock data based on the URL parameter
   const user = mockUsers.find((u) => u.id === userId);
 
+  // Find the courses the user is enrolled in
   const enrolledCourses: EnrolledCourse[] = mockEnrollments
     .filter((e) => e.userId === userId)
     .map((enrollment) => {
       const course = mockCourses.find((c) => c.id === enrollment.courseId);
+      // Combine course data with enrollment status
       return course ? { ...course, status: enrollment.status } : null;
     })
     .filter((course): course is EnrolledCourse => course !== null);
 
+  // Handle case where user is not found
   if (!user) {
     return (
       <div className="text-center p-10">
@@ -116,6 +125,7 @@ const UserDetailPage: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
+      {/* Back link to the user management page */}
       <Link
         to="/admin/users"
         className="inline-flex items-center gap-2 text-blue-500 hover:underline mb-6"
@@ -124,6 +134,7 @@ const UserDetailPage: React.FC = () => {
         {t("admin.details.user.backLink")}
       </Link>
 
+      {/* User Profile Card */}
       <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md mb-8">
         <div className="flex items-center gap-6">
           <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center">
@@ -144,6 +155,7 @@ const UserDetailPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Enrolled Courses Section */}
       <h2 className="text-2xl font-bold mb-4">
         {t("admin.details.user.enrolledCourses")}
       </h2>

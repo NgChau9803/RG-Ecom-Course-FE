@@ -42,6 +42,10 @@ const mockCourses: Course[] = [
   },
 ];
 
+/**
+ * Admin page for managing courses.
+ * Allows for creating, editing, and viewing courses and their enrollments.
+ */
 const CourseManagementPage: React.FC = () => {
   const { t } = useLanguage();
   const [courses, setCourses] = useState<Course[]>(mockCourses);
@@ -49,26 +53,44 @@ const CourseManagementPage: React.FC = () => {
   const [isEnrollmentModalOpen, setIsEnrollmentModalOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
+  /**
+   * Opens the course form modal for adding or editing a course.
+   * @param {Course | null} course - The course to edit, or null to add a new one.
+   */
   const handleOpenModal = (course: Course | null) => {
     setSelectedCourse(course);
     setIsModalOpen(true);
   };
 
+  /**
+   * Closes the course form modal.
+   */
   const handleCloseModal = () => {
     setSelectedCourse(null);
     setIsModalOpen(false);
   };
 
+  /**
+   * Opens the enrollment details modal for a specific course.
+   * @param {Course} course - The course to view enrollments for.
+   */
   const handleOpenEnrollmentModal = (course: Course) => {
     setSelectedCourse(course);
     setIsEnrollmentModalOpen(true);
   };
 
+  /**
+   * Closes the enrollment details modal.
+   */
   const handleCloseEnrollmentModal = () => {
     setSelectedCourse(null);
     setIsEnrollmentModalOpen(false);
   };
 
+  /**
+   * Saves course data from the form modal (either creating or updating).
+   * @param {Course} courseData - The course data to save.
+   */
   const handleSaveCourse = (courseData: Course) => {
     if (selectedCourse && "id" in selectedCourse) {
       // Edit existing course
@@ -87,10 +109,12 @@ const CourseManagementPage: React.FC = () => {
 
   return (
     <div className="container mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
+      {/* Page Header */}
       <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">
         {t("admin.courses.title")}
       </h1>
 
+      {/* Search and Add Course Controls */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center space-x-4">
           <div className="relative">
@@ -114,6 +138,7 @@ const CourseManagementPage: React.FC = () => {
         </button>
       </div>
 
+      {/* Courses Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 border">
           <thead>
@@ -146,7 +171,7 @@ const CourseManagementPage: React.FC = () => {
                 </td>
                 <td className="py-4 px-6 whitespace-nowrap">
                   <span
-                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                     ${
                       course.level === "Beginner"
                         ? "bg-green-100 text-green-800"
@@ -186,6 +211,7 @@ const CourseManagementPage: React.FC = () => {
         </table>
       </div>
 
+      {/* Modals */}
       <CourseFormModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}

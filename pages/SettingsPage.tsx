@@ -3,7 +3,7 @@ import { useAppSettings } from "../contexts/AppSettingsContext";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useChat } from "../contexts/ChatContext";
 import type { Locale } from "../types";
-import { SunIcon, MoonIcon, TrashIcon } from "../components/icons/Icons";
+import { Sun, Moon, Trash2 } from "lucide-react";
 
 /**
  * A page for managing application settings, such as theme and data.
@@ -23,6 +23,10 @@ const SettingsPage: React.FC = () => {
     }
   };
 
+  /**
+   * Sets the application's locale.
+   * @param {Locale} lang - The language to set.
+   */
   const handleSetLocale = (lang: Locale) => {
     setLocale(lang);
   };
@@ -55,9 +59,9 @@ const SettingsPage: React.FC = () => {
               } inline-block w-6 h-6 transform bg-white rounded-full transition-transform flex items-center justify-center`}
             >
               {theme === "light" ? (
-                <SunIcon className="w-4 h-4 text-yellow-500" />
+                <Sun className="w-4 h-4 text-yellow-500" />
               ) : (
-                <MoonIcon className="w-4 h-4 text-primary" />
+                <Moon className="w-4 h-4 text-primary" />
               )}
             </span>
           </button>
@@ -114,7 +118,7 @@ const SettingsPage: React.FC = () => {
             onClick={handleClearAllChatHistory}
             className="flex items-center gap-2 px-4 py-2 bg-red-100 text-red-700 font-semibold rounded-lg hover:bg-red-200 dark:bg-red-900/50 dark:text-red-300 dark:hover:bg-red-900 transition-colors"
           >
-            <TrashIcon className="w-4 h-4" />
+            <Trash2 className="w-4 h-4" />
             <span>{t("settings.data.deleteAllButton")}</span>
           </button>
         </div>

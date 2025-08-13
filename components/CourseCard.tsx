@@ -3,13 +3,13 @@ import type { Course } from "../types";
 import { useAppSettings } from "../contexts/AppSettingsContext";
 import { useLanguage } from "../contexts/LanguageContext";
 import {
-  BriefcaseIcon,
-  ClockIcon,
-  LevelIcon,
-  HeartIcon,
-  StarIcon,
-  SparklesIcon,
-} from "./icons/Icons";
+  Briefcase,
+  Clock,
+  Signal,
+  Heart,
+  Star,
+  Sparkles,
+} from "lucide-react";
 
 interface CourseCardProps {
   course: Course;
@@ -83,7 +83,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
     >
       {isRecommended && (
         <div className="absolute top-0 -right-2 bg-primary text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg flex items-center gap-1 shadow-lg">
-          <StarIcon className="w-3 h-3" /> {t("course.recommended")}
+          <Star className="w-3 h-3" /> {t("course.recommended")}
         </div>
       )}
 
@@ -97,7 +97,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
             aria-label={favoriteLabel}
             className="text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 transition-colors z-10 p-1 -m-1"
           >
-            <HeartIcon
+            <Heart
               className={`w-6 h-6 ${
                 isFavorite
                   ? "fill-red-500 text-red-500 dark:text-red-400 dark:fill-red-400"
@@ -113,21 +113,21 @@ const CourseCard: React.FC<CourseCardProps> = ({
       <div className="border-t border-gray-100 dark:border-gray-700 pt-4 mt-4 flex flex-col gap-3 text-sm text-gray-600 dark:text-gray-300">
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <BriefcaseIcon />
+            <Briefcase className="h-5 w-5 text-gray-400 dark:text-gray-500" />
             <span>
               {t("course.provider")}:{" "}
               <span className="font-semibold">{course.provider}</span>
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <ClockIcon />
+            <Clock className="h-5 w-5 text-gray-400 dark:text-gray-500" />
             <span>
               {t("course.duration")}:{" "}
               <span className="font-semibold">{course.duration}</span>
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <LevelIcon />
+            <Signal className="h-5 w-5 text-gray-400 dark:text-gray-500" />
             <span>
               {t("course.level")}:{" "}
               <LevelBadge
@@ -142,7 +142,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
             onClick={handleAiIntroduceClick}
             className="w-full mt-2 px-4 py-2 text-sm font-semibold text-white bg-indigo-500 hover:bg-indigo-600 rounded-lg flex items-center justify-center gap-2 transition-colors"
           >
-            <SparklesIcon className="w-4 h-4" />
+            <Sparkles className="w-4 h-4" />
             {t("course.aiIntroduce")}
           </button>
         )}
