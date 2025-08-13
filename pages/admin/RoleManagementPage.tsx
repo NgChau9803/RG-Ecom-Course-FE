@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Role, UserRole } from "../../types";
 import { PlusCircle, ShieldCheck, Trash2, Edit } from "lucide-react";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 // Mock data for roles
 const mockRoles: Role[] = [
@@ -39,6 +40,7 @@ const allPermissions = [
 ];
 
 const RoleManagementPage: React.FC = () => {
+  const { t } = useLanguage();
   const [roles, setRoles] = useState<Role[]>(mockRoles);
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,13 +69,13 @@ const RoleManagementPage: React.FC = () => {
   return (
     <div className="container mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
       <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">
-        Role Management
+        {t("admin.roles.title")}
       </h1>
 
       <div className="flex justify-end mb-6">
         <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center space-x-2">
           <PlusCircle size={20} />
-          <span>Add Role</span>
+          <span>{t("admin.roles.addRole")}</span>
         </button>
       </div>
 
@@ -91,17 +93,21 @@ const RoleManagementPage: React.FC = () => {
                 <button
                   onClick={() => handleSelectRole(role)}
                   className="text-blue-500 hover:text-blue-700"
+                  title={t("action.edit")}
                 >
                   <Edit size={20} />
                 </button>
-                <button className="text-red-500 hover:text-red-700">
+                <button
+                  className="text-red-500 hover:text-red-700"
+                  title={t("action.delete")}
+                >
                   <Trash2 size={20} />
                 </button>
               </div>
             </div>
             <div>
               <h3 className="text-md font-semibold mb-2 text-gray-600 dark:text-gray-400">
-                Permissions:
+                {t("admin.roles.permissions")}
               </h3>
               <ul className="space-y-2">
                 {role.permissions.map((permission) => (
@@ -144,6 +150,7 @@ const PermissionModal: React.FC<PermissionModalProps> = ({
   onClose,
   onSave,
 }) => {
+  const { t } = useLanguage();
   const [selectedPermissions, setSelectedPermissions] = useState(
     new Set(role.permissions)
   );
@@ -167,14 +174,14 @@ const PermissionModal: React.FC<PermissionModalProps> = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-2xl w-full max-w-2xl">
         <h2 className="text-2xl font-bold mb-6">
-          Edit Permissions for {role.name}
+          {t("form.role.editTitle", { roleName: role.name })}
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
           {allPermissions.map((permission) => (
             <label key={permission} className="flex items-center space-x-3">
               <input
                 type="checkbox"
-                className="form-checkbox h-5 w-5 text-blue-600"
+                className="form-checkbox h-5 w-5 text-blue-600 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded"
                 checked={selectedPermissions.has(permission)}
                 onChange={() => handlePermissionChange(permission)}
               />
@@ -187,15 +194,15 @@ const PermissionModal: React.FC<PermissionModalProps> = ({
         <div className="flex justify-end space-x-4">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-lg border hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
           >
-            Cancel
+            {t("form.cancel")}
           </button>
           <button
             onClick={handleSave}
             className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
           >
-            Save Changes
+            {t("form.save")}
           </button>
         </div>
       </div>

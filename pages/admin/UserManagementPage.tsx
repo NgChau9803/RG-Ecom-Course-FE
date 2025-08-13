@@ -3,6 +3,7 @@ import { User, UserRole } from "../../types";
 import { PlusCircle, Search, Edit, Trash2, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
 import UserFormModal from "../../components/admin/UserFormModal";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 // Mock data for users
 const mockUsers: User[] = [
@@ -37,6 +38,7 @@ const mockUsers: User[] = [
 ];
 
 const UserManagementPage: React.FC = () => {
+  const { t } = useLanguage();
   const [users, setUsers] = useState<User[]>(mockUsers);
   const [filter, setFilter] = useState<UserRole | "all">("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,7 +72,7 @@ const UserManagementPage: React.FC = () => {
   return (
     <div className="container mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
       <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">
-        User Management
+        {t("admin.users.title")}
       </h1>
 
       {/* Filters and Actions */}
@@ -83,16 +85,16 @@ const UserManagementPage: React.FC = () => {
             />
             <input
               type="text"
-              placeholder="Search users..."
-              className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder={t("admin.users.searchPlaceholder")}
+              className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
             />
           </div>
           <select
             onChange={(e) => setFilter(e.target.value as UserRole | "all")}
             value={filter}
-            className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
           >
-            <option value="all">All Roles</option>
+            <option value="all">{t("admin.users.allRoles")}</option>
             <option value="admin">Admin</option>
             <option value="enterprise">Enterprise</option>
             <option value="student">Student</option>
@@ -104,7 +106,7 @@ const UserManagementPage: React.FC = () => {
           className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center space-x-2"
         >
           <PlusCircle size={20} />
-          <span>Add User</span>
+          <span>{t("admin.users.addUser")}</span>
         </button>
       </div>
 
@@ -114,19 +116,19 @@ const UserManagementPage: React.FC = () => {
           <thead>
             <tr className="bg-gray-50 dark:bg-gray-700">
               <th className="py-3 px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                Full Name
+                {t("admin.users.table.fullName")}
               </th>
               <th className="py-3 px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                Email
+                {t("admin.users.table.email")}
               </th>
               <th className="py-3 px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                Role
+                {t("admin.users.table.role")}
               </th>
               <th className="py-3 px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                Created At
+                {t("admin.users.table.createdAt")}
               </th>
               <th className="py-3 px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                Actions
+                {t("admin.users.table.actions")}
               </th>
             </tr>
           </thead>

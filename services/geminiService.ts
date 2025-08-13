@@ -1,5 +1,5 @@
 import { GoogleGenAI, Type } from "@google/genai";
-import type { Course, ChatMessage, Locale } from '../types';
+import type { Course, ChatMessage, Locale } from "../types";
 
 if (!import.meta.env.VITE_GEMINI_API_KEY) {
   throw new Error("VITE_GEMINI_API_KEY environment variable not set");
@@ -16,34 +16,38 @@ const conversationalSchema = {
   properties: {
     chatResponse: {
       type: Type.STRING,
-      description: "A friendly, conversational response to the user. This will be either the next question or the text introducing the recommendations."
+      description:
+        "A friendly, conversational response to the user. This will be either the next question or the text introducing the recommendations.",
     },
     recommendations: {
       type: Type.ARRAY,
-      description: "An array of 2-3 recommended courses. This should ONLY be included when enough information has been gathered to make a recommendation.",
+      description:
+        "An array of 2-3 recommended courses. This should ONLY be included when enough information has been gathered to make a recommendation.",
       items: {
         type: Type.OBJECT,
         required: ["courseId", "reasoning"],
         properties: {
           courseId: {
             type: Type.STRING,
-            description: "The ID of the recommended course from the provided catalog."
+            description:
+              "The ID of the recommended course from the provided catalog.",
           },
           reasoning: {
             type: Type.STRING,
-            description: "A detailed but concise explanation of why this specific course is a good fit for the user, referencing the conversation history."
-          }
-        }
-      }
+            description:
+              "A detailed but concise explanation of why this specific course is a good fit for the user, referencing the conversation history.",
+          },
+        },
+      },
     },
     isComplete: {
       type: Type.BOOLEAN,
-      description: "Set to true when you provide the initial set of recommendations. The user may still ask follow-up questions. Otherwise, set to false."
-    }
+      description:
+        "Set to true when you provide the initial set of recommendations. The user may still ask follow-up questions. Otherwise, set to false.",
+    },
   },
-  required: ['chatResponse', 'isComplete']
+  required: ["chatResponse", "isComplete"],
 };
-
 
 /**
  * Represents a single course recommendation from the AI.
@@ -62,7 +66,6 @@ export interface GeminiResponse {
   isComplete: boolean;
 }
 
-
 /**
  * Sends the current conversation history to the Gemini API and gets the next response.
  * The AI will decide whether to ask another question or provide recommendations.
@@ -77,17 +80,17 @@ export const getAiResponse = async (
   locale: Locale
 ): Promise<GeminiResponse> => {
   const model = "gemini-2.5-flash";
-  
+
   // To save tokens and avoid confusion, we only send the English fields to the model.
-  const coursesForAI = courses.map(c => ({
-      id: c.id,
-      title: c.title,
-      provider: c.provider,
-      description: c.description,
-      longDescription: c.longDescription,
-      duration: c.duration,
-      level: c.level,
-      topics: c.topics,
+  const coursesForAI = courses.map((c) => ({
+    id: c.id,
+    title: c.title,
+    provider: c.provider,
+    description: c.description,
+    longDescription: c.longDescription,
+    duration: c.duration,
+    level: c.level,
+    topics: c.topics,
   }));
 
   const systemInstruction_en = `You are a friendly and professional AI course advisor named NinjaGPT. Your goal is to help users find the best training courses by having a natural conversation. The full course catalog is provided below.
@@ -130,11 +133,12 @@ Bạn PHẢI trả lời ở định dạng JSON khớp với schema được cu
 ${JSON.stringify(coursesForAI, null, 2)}
 `;
 
-  const systemInstruction = locale === 'vi' ? systemInstruction_vi : systemInstruction_en;
-  
-  const conversationHistory = chatHistory.map(message => ({
-    role: message.sender === 'ai' ? 'model' : 'user',
-    parts: [{ text: message.text || '' }],
+  const systemInstruction =
+    locale === "vi" ? systemInstruction_vi : systemInstruction_en;
+
+  const conversationHistory = chatHistory.map((message) => ({
+    role: message.sender === "ai" ? "model" : "user",
+    parts: [{ text: message.text || "" }],
   }));
 
   try {
@@ -151,21 +155,65 @@ ${JSON.stringify(coursesForAI, null, 2)}
 
     const jsonText = response.text.trim();
     const parsedResponse: GeminiResponse = JSON.parse(jsonText);
-    
-    if (!parsedResponse.chatResponse) {
-        throw new Error("Invalid response structure from AI: chatResponse missing.");
-    }
-    
-    return parsedResponse;
 
+    if (!parsedResponse.chatResponse) {
+      throw new Error(
+        "Invalid response structure from AI: chatResponse missing."
+      );
+    }
+
+    return parsedResponse;
   } catch (error) {
     console.error("Error fetching response from Gemini API:", error);
-    const errorMessage = locale === 'vi' 
-      ? "Em xin lỗi, hiện tại em đang gặp sự cố kết nối. Anh/chị vui lòng thử lại sau một lát ạ." 
-      : "I'm having a little trouble connecting right now. Please try sending your message again in a moment.";
+    const errorMessage =
+      locale === "vi"
+        ? "Em xin lỗi, hiện tại em đang gặp sự cố kết nối. Anh/chị vui lòng thử lại sau một lát ạ."
+        : "I'm having a little trouble connecting right now. Please try sending your message again in a moment.";
     return {
       chatResponse: errorMessage,
       isComplete: false,
     };
+  }
+};
+
+/**
+ * Generates a brief, engaging introduction for a single course using the Gemini API.
+ * @param course - The course object to introduce.
+ * @param locale - The user's current language.
+ * @returns A promise that resolves to a string containing the AI-generated introduction.
+ */
+export const getAiCourseIntro = async (
+  course: Course,
+  locale: Locale
+): Promise<string> => {
+  const model = "gemini-2.5-flash";
+  const courseForAI = {
+    title: course.title,
+    description: course.description,
+    level: course.level,
+    topics: course.topics,
+  };
+
+  const prompt_en = `You are a helpful AI assistant. Based on the following course details, write a short, exciting, and professional 1-paragraph introduction for a potential student. Focus on the benefits and what they will learn. Do not just list the features. Respond only with the introduction text, without any preamble. Course Details: ${JSON.stringify(
+    courseForAI
+  )}`;
+  const prompt_vi = `Bạn là một trợ lý AI hữu ích. Dựa trên chi tiết khóa học sau, hãy viết một đoạn giới thiệu ngắn gọn, hấp dẫn và chuyên nghiệp cho học viên tiềm năng. Tập trung vào lợi ích và những gì họ sẽ học được. Đừng chỉ liệt kê các tính năng. Chỉ trả lời bằng văn bản giới thiệu, không có lời mở đầu. Chi tiết khóa học: ${JSON.stringify(
+    courseForAI
+  )}`;
+
+  const prompt = locale === "vi" ? prompt_vi : prompt_en;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: model,
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      config: { temperature: 0.7 },
+    });
+    return response.text.trim();
+  } catch (error) {
+    console.error("Error fetching course intro from Gemini API:", error);
+    return locale === "vi"
+      ? "Rất tiếc, đã có lỗi xảy ra khi tạo phần giới thiệu."
+      : "Sorry, an error occurred while generating the introduction.";
   }
 };

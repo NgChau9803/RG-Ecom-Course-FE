@@ -1,5 +1,6 @@
 import React from "react";
 import { Users, BookOpen, Briefcase, UserCheck } from "lucide-react";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 interface StatCardProps {
   icon: React.ReactNode;
@@ -21,6 +22,7 @@ const StatCard: React.FC<StatCardProps> = ({ icon, title, value, color }) => (
 );
 
 const DashboardPage: React.FC = () => {
+  const { t } = useLanguage();
   // Mock data for dashboard statistics
   const stats = {
     totalUsers: 150,
@@ -32,30 +34,30 @@ const DashboardPage: React.FC = () => {
   return (
     <div>
       <h1 className="text-3xl font-bold mb-8 text-gray-800 dark:text-gray-200">
-        Admin Dashboard
+        {t("admin.dashboard.title")}
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           icon={<Users size={32} className="text-white" />}
-          title="Total Users"
+          title={t("admin.dashboard.totalUsers")}
           value={stats.totalUsers.toString()}
           color="bg-blue-500"
         />
         <StatCard
           icon={<BookOpen size={32} className="text-white" />}
-          title="Total Courses"
+          title={t("admin.dashboard.totalCourses")}
           value={stats.totalCourses.toString()}
           color="bg-green-500"
         />
         <StatCard
           icon={<Briefcase size={32} className="text-white" />}
-          title="Enterprises"
+          title={t("admin.dashboard.enterprises")}
           value={stats.enterprises.toString()}
           color="bg-purple-500"
         />
         <StatCard
           icon={<UserCheck size={32} className="text-white" />}
-          title="Students & Interns"
+          title={t("admin.dashboard.studentsInterns")}
           value={stats.students.toString()}
           color="bg-red-500"
         />
@@ -63,9 +65,11 @@ const DashboardPage: React.FC = () => {
 
       {/* Placeholder for future charts and recent activity */}
       <div className="mt-12">
-        <h2 className="text-2xl font-bold mb-4">Recent Activity</h2>
+        <h2 className="text-2xl font-bold mb-4">
+          {t("admin.dashboard.recentActivity")}
+        </h2>
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-          <p>Recent activity feed will be displayed here...</p>
+          <p>{t("admin.dashboard.welcome")}</p>
         </div>
       </div>
     </div>

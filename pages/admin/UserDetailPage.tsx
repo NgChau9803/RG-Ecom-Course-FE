@@ -2,6 +2,7 @@ import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { User, Course, Enrollment } from "../../types";
 import { ArrowLeft, Book, Shield } from "lucide-react";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 // Mock data - In a real app, this would come from an API
 const mockUsers: User[] = [
@@ -85,6 +86,7 @@ const mockEnrollments: Enrollment[] = [
 type EnrolledCourse = Course & { status: Enrollment["status"] };
 
 const UserDetailPage: React.FC = () => {
+  const { t } = useLanguage();
   const { userId } = useParams<{ userId: string }>();
   const user = mockUsers.find((u) => u.id === userId);
 
@@ -99,12 +101,14 @@ const UserDetailPage: React.FC = () => {
   if (!user) {
     return (
       <div className="text-center p-10">
-        <h2 className="text-2xl font-bold">User not found</h2>
+        <h2 className="text-2xl font-bold">
+          {t("admin.details.user.notFound")}
+        </h2>
         <Link
           to="/admin/users"
           className="text-blue-500 hover:underline mt-4 inline-block"
         >
-          &larr; Back to User List
+          &larr; {t("admin.details.user.backLink")}
         </Link>
       </div>
     );
@@ -117,7 +121,7 @@ const UserDetailPage: React.FC = () => {
         className="inline-flex items-center gap-2 text-blue-500 hover:underline mb-6"
       >
         <ArrowLeft size={20} />
-        Back to User Management
+        {t("admin.details.user.backLink")}
       </Link>
 
       <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md mb-8">
@@ -140,7 +144,9 @@ const UserDetailPage: React.FC = () => {
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold mb-4">Enrolled Courses</h2>
+      <h2 className="text-2xl font-bold mb-4">
+        {t("admin.details.user.enrolledCourses")}
+      </h2>
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
         {enrolledCourses.length > 0 ? (
           <ul className="space-y-4">
@@ -166,7 +172,7 @@ const UserDetailPage: React.FC = () => {
             ))}
           </ul>
         ) : (
-          <p>This user is not enrolled in any courses.</p>
+          <p>{t("admin.details.user.noCourses")}</p>
         )}
       </div>
     </div>

@@ -3,6 +3,7 @@ import { Course } from "../../types";
 import { PlusCircle, Search, Eye, Edit, Trash2 } from "lucide-react";
 import CourseFormModal from "../../components/admin/CourseFormModal";
 import EnrollmentDetailsModal from "../../components/admin/EnrollmentDetailsModal";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 // Mock data for courses
 const mockCourses: Course[] = [
@@ -42,6 +43,7 @@ const mockCourses: Course[] = [
 ];
 
 const CourseManagementPage: React.FC = () => {
+  const { t } = useLanguage();
   const [courses, setCourses] = useState<Course[]>(mockCourses);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEnrollmentModalOpen, setIsEnrollmentModalOpen] = useState(false);
@@ -86,10 +88,9 @@ const CourseManagementPage: React.FC = () => {
   return (
     <div className="container mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow">
       <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">
-        Course Management
+        {t("admin.courses.title")}
       </h1>
 
-      {/* Filters and Actions */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center space-x-4">
           <div className="relative">
@@ -99,8 +100,8 @@ const CourseManagementPage: React.FC = () => {
             />
             <input
               type="text"
-              placeholder="Search courses..."
-              className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder={t("admin.courses.searchPlaceholder")}
+              className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
             />
           </div>
         </div>
@@ -109,26 +110,25 @@ const CourseManagementPage: React.FC = () => {
           className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center space-x-2"
         >
           <PlusCircle size={20} />
-          <span>Add Course</span>
+          <span>{t("admin.courses.addCourse")}</span>
         </button>
       </div>
 
-      {/* Courses Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 border">
           <thead>
             <tr className="bg-gray-50 dark:bg-gray-700">
               <th className="py-3 px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                Title
+                {t("admin.courses.table.title")}
               </th>
               <th className="py-3 px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                Provider
+                {t("admin.courses.table.provider")}
               </th>
               <th className="py-3 px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                Level
+                {t("admin.courses.table.level")}
               </th>
               <th className="py-3 px-6 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                Actions
+                {t("admin.courses.table.actions")}
               </th>
             </tr>
           </thead>
@@ -162,20 +162,20 @@ const CourseManagementPage: React.FC = () => {
                   <button
                     onClick={() => handleOpenEnrollmentModal(course)}
                     className="text-blue-600 hover:text-blue-900"
-                    title="View Enrollments"
+                    title={t("action.viewDetails")}
                   >
                     <Eye size={20} />
                   </button>
                   <button
                     onClick={() => handleOpenModal(course)}
                     className="text-indigo-600 hover:text-indigo-900"
-                    title="Edit Course"
+                    title={t("action.edit")}
                   >
                     <Edit size={20} />
                   </button>
                   <button
                     className="text-red-600 hover:text-red-900"
-                    title="Delete Course"
+                    title={t("action.delete")}
                   >
                     <Trash2 size={20} />
                   </button>

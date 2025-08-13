@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { User, UserRole } from "../../types";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 interface UserFormModalProps {
   isOpen: boolean;
@@ -14,6 +15,7 @@ const UserFormModal: React.FC<UserFormModalProps> = ({
   onSave,
   user,
 }) => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState<Partial<User>>(user || {});
 
   useEffect(() => {
@@ -50,14 +52,14 @@ const UserFormModal: React.FC<UserFormModalProps> = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-2xl w-full max-w-lg">
         <h2 className="text-2xl font-bold mb-6">
-          {user ? "Edit User" : "Add New User"}
+          {user ? t("form.user.editTitle") : t("form.user.addTitle")}
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             name="fullName"
             value={formData.fullName || ""}
             onChange={handleChange}
-            placeholder="Full Name"
+            placeholder={t("form.user.fullName")}
             className="p-2 border rounded w-full"
           />
           <input
@@ -65,7 +67,7 @@ const UserFormModal: React.FC<UserFormModalProps> = ({
             type="email"
             value={formData.email || ""}
             onChange={handleChange}
-            placeholder="Email Address"
+            placeholder={t("form.user.email")}
             className="p-2 border rounded w-full"
           />
           <select
@@ -85,13 +87,13 @@ const UserFormModal: React.FC<UserFormModalProps> = ({
               onClick={onClose}
               className="px-4 py-2 rounded-lg border hover:bg-gray-100 dark:hover:bg-gray-700"
             >
-              Cancel
+              {t("form.cancel")}
             </button>
             <button
               type="submit"
               className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
             >
-              Save User
+              {t("form.saveUser")}
             </button>
           </div>
         </form>
