@@ -3,7 +3,13 @@ import { useLandingPageData } from "../hooks/useLandingPageData";
 import LandingPageHeader from "../components/LandingPageHeader";
 import Footer from "../components/Footer";
 
+/**
+ * Landing page specifically for interns seeking opportunities.
+ * Displays featured internships and partner companies.
+ * @returns {JSX.Element} The rendered InternLandingPage component.
+ */
 const InternLandingPage = () => {
+  // Fetching data for the landing page from a custom hook
   const { featuredInternships, partnerLogos } = useLandingPageData();
 
   return (

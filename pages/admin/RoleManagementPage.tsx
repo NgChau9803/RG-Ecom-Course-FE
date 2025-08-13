@@ -39,17 +39,29 @@ const allPermissions = [
   "submit_work",
 ];
 
+/**
+ * Admin page for managing user roles and their associated permissions.
+ */
 const RoleManagementPage: React.FC = () => {
   const { t } = useLanguage();
   const [roles, setRoles] = useState<Role[]>(mockRoles);
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  /**
+   * Opens the permission editing modal for a selected role.
+   * @param {Role} role - The role to edit.
+   */
   const handleSelectRole = (role: Role) => {
     setSelectedRole(role);
     setIsModalOpen(true);
   };
 
+  /**
+   * Updates the permissions for a given role.
+   * @param {UserRole} roleId - The ID of the role to update.
+   * @param {string[]} newPermissions - The new list of permissions.
+   */
   const handleUpdatePermissions = (
     roleId: UserRole,
     newPermissions: string[]
@@ -61,6 +73,9 @@ const RoleManagementPage: React.FC = () => {
     );
   };
 
+  /**
+   * Closes the permission editing modal.
+   */
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedRole(null);
@@ -72,6 +87,7 @@ const RoleManagementPage: React.FC = () => {
         {t("admin.roles.title")}
       </h1>
 
+      {/* Add Role Button */}
       <div className="flex justify-end mb-6">
         <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center space-x-2">
           <PlusCircle size={20} />
@@ -79,6 +95,7 @@ const RoleManagementPage: React.FC = () => {
         </button>
       </div>
 
+      {/* Role Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {roles.map((role) => (
           <div
@@ -125,6 +142,7 @@ const RoleManagementPage: React.FC = () => {
         ))}
       </div>
 
+      {/* Permission Editing Modal */}
       {isModalOpen && selectedRole && (
         <PermissionModal
           role={selectedRole}
@@ -137,6 +155,13 @@ const RoleManagementPage: React.FC = () => {
   );
 };
 
+/**
+ * Props for the PermissionModal component.
+ * @property {Role} role - The role being edited.
+ * @property {string[]} allPermissions - A list of all possible permissions.
+ * @property {() => void} onClose - Function to close the modal.
+ * @property {(roleId: UserRole, permissions: string[]) => void} onSave - Function to save the updated permissions.
+ */
 interface PermissionModalProps {
   role: Role;
   allPermissions: string[];
@@ -144,6 +169,9 @@ interface PermissionModalProps {
   onSave: (roleId: UserRole, permissions: string[]) => void;
 }
 
+/**
+ * A modal component for editing the permissions of a specific role.
+ */
 const PermissionModal: React.FC<PermissionModalProps> = ({
   role,
   allPermissions,
@@ -155,6 +183,10 @@ const PermissionModal: React.FC<PermissionModalProps> = ({
     new Set(role.permissions)
   );
 
+  /**
+   * Toggles a permission on or off.
+   * @param {string} permission - The permission to toggle.
+   */
   const handlePermissionChange = (permission: string) => {
     const newPermissions = new Set(selectedPermissions);
     if (newPermissions.has(permission)) {
@@ -165,6 +197,9 @@ const PermissionModal: React.FC<PermissionModalProps> = ({
     setSelectedPermissions(newPermissions);
   };
 
+  /**
+   * Saves the changes and closes the modal.
+   */
   const handleSave = () => {
     onSave(role.id, Array.from(selectedPermissions));
     onClose();

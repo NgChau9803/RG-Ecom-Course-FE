@@ -10,26 +10,19 @@ import {
   MoonIcon,
 } from "lucide-react";
 import { useAppSettings } from "../../contexts/AppSettingsContext";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 const AdminSidebar: React.FC = () => {
   const { theme, toggleTheme } = useAppSettings();
-  const activeLinkClass = "bg-gray-700 text-white";
-  const inactiveLinkClass = "text-gray-300 hover:bg-gray-700 hover:text-white";
+  const { t } = useLanguage();
+  const activeLinkClass = "bg-primary text-white";
+  const inactiveLinkClass = "text-gray-700 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white";
   const linkBaseClass =
-    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all";
+    "group flex items-center gap-3 rounded-lg px-3 py-2 transition-all";
 
   return (
-    <aside className="w-64 flex-shrink-0 bg-gray-800 text-white p-4 flex flex-col">
-      <div>
-        <div className="flex items-center gap-4 mb-8">
-          <NavLink
-            to="/chat"
-            className="flex items-center gap-2 text-lg font-semibold"
-          >
-            <ChevronLeft className="h-5 w-5" />
-            <span>Back to Chat</span>
-          </NavLink>
-        </div>
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 flex flex-col h-full w-full">
+      <div className="p-4 border-b border-gray-200 dark:border-gray-700">
         <nav className="flex flex-col gap-2">
           <NavLink
             to="/admin/dashboard"
@@ -39,8 +32,8 @@ const AdminSidebar: React.FC = () => {
               }`
             }
           >
-            <LayoutDashboard className="h-4 w-4" />
-            Dashboard
+            <LayoutDashboard className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-white" />
+            <span className="text-sm font-medium">{t("admin.menu.dashboard")}</span>
           </NavLink>
           <NavLink
             to="/admin/users"
@@ -50,8 +43,8 @@ const AdminSidebar: React.FC = () => {
               }`
             }
           >
-            <Users className="h-4 w-4" />
-            Users
+            <Users className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-white" />
+            <span className="text-sm font-medium">{t("admin.menu.users")}</span>
           </NavLink>
           <NavLink
             to="/admin/courses"
@@ -61,8 +54,8 @@ const AdminSidebar: React.FC = () => {
               }`
             }
           >
-            <BookCopy className="h-4 w-4" />
-            Courses
+            <BookCopy className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-white" />
+            <span className="text-sm font-medium">{t("admin.menu.courses")}</span>
           </NavLink>
           <NavLink
             to="/admin/roles"
@@ -72,25 +65,27 @@ const AdminSidebar: React.FC = () => {
               }`
             }
           >
-            <Shield className="h-4 w-4" />
-            Roles
+            <Shield className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-white" />
+            <span className="text-sm font-medium">{t("admin.menu.roles")}</span>
           </NavLink>
         </nav>
       </div>
-      <div className="mt-auto">
+      <div className="mt-auto p-4 border-t border-gray-200 dark:border-gray-700">
         <button
           onClick={toggleTheme}
           className={`${linkBaseClass} w-full ${inactiveLinkClass}`}
         >
           {theme === "light" ? (
-            <MoonIcon className="h-4 w-4" />
+            <MoonIcon className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-white" />
           ) : (
-            <SunIcon className="h-4 w-4" />
+            <SunIcon className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-white" />
           )}
-          <span>{theme === "light" ? "Dark" : "Light"} Mode</span>
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">
+            {theme === "light" ? t("theme.dark") : t("theme.light")} {t("theme.mode")}
+          </span>
         </button>
       </div>
-    </aside>
+    </div>
   );
 };
 

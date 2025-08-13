@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import type { Course } from "../types";
 import CourseCard from "../components/CourseCard";
-import { SearchIcon } from "../components/icons/Icons";
+import { Search } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useRecommendations } from "../contexts/RecommendationContext";
 
@@ -15,11 +15,14 @@ interface CoursesPageProps {
 
 /**
  * A page that displays the entire course catalog with search and filtering functionality.
+ * @param {CoursesPageProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered CoursesPage component.
  */
 const CoursesPage: React.FC<CoursesPageProps> = ({
   courses,
   onSelectCourse,
 }) => {
+  // State for search term, filters, and pagination
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedLevel, setSelectedLevel] = useState<string>("All");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -29,6 +32,7 @@ const CoursesPage: React.FC<CoursesPageProps> = ({
 
   const coursesPerPage = 9;
 
+  // Memoized lists of categories and levels for filtering
   const categories = useMemo(
     () => ["All", ...Array.from(new Set(courses.map((c) => c.category)))],
     [courses]
@@ -38,6 +42,7 @@ const CoursesPage: React.FC<CoursesPageProps> = ({
     []
   );
 
+  // Memoized filtered list of courses based on search and filters
   const filteredCourses = useMemo(() => {
     return courses.filter((course) => {
       const lowercasedFilter = searchTerm.toLowerCase();
@@ -66,6 +71,7 @@ const CoursesPage: React.FC<CoursesPageProps> = ({
     });
   }, [searchTerm, courses, locale, selectedLevel, selectedCategory]);
 
+  // Memoized paginated list of courses
   const paginatedCourses = useMemo(() => {
     const startIndex = (currentPage - 1) * coursesPerPage;
     return filteredCourses.slice(startIndex, startIndex + coursesPerPage);
@@ -75,6 +81,7 @@ const CoursesPage: React.FC<CoursesPageProps> = ({
 
   return (
     <div className="animate-fade-in">
+      {/* Page Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100">
           {t("courses.title")}
@@ -84,6 +91,7 @@ const CoursesPage: React.FC<CoursesPageProps> = ({
         </p>
       </div>
 
+      {/* Search and Filter Controls */}
       <div className="mb-8 max-w-4xl mx-auto space-y-4">
         <div className="relative">
           <input
@@ -95,7 +103,7 @@ const CoursesPage: React.FC<CoursesPageProps> = ({
             aria-label={t("courses.searchPlaceholder")}
           />
           <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-            <SearchIcon />
+            <Search />
           </div>
         </div>
         <div className="flex justify-center gap-4">
@@ -124,6 +132,7 @@ const CoursesPage: React.FC<CoursesPageProps> = ({
         </div>
       </div>
 
+      {/* Course Grid and Pagination */}
       {paginatedCourses.length > 0 ? (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -143,6 +152,7 @@ const CoursesPage: React.FC<CoursesPageProps> = ({
               );
             })}
           </div>
+          {/* Pagination Controls */}
           <div className="flex justify-center mt-8">
             <button
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
@@ -167,6 +177,7 @@ const CoursesPage: React.FC<CoursesPageProps> = ({
           </div>
         </>
       ) : (
+        // No Results Message
         <div className="text-center py-16">
           <p className="text-xl text-gray-500 dark:text-gray-400">
             {t("courses.noResults")}

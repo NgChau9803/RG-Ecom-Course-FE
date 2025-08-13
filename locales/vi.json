@@ -117,5 +117,12 @@
   "home.chat.subtitle": "Để cố vấn AI của chúng tôi giúp bạn tìm khóa học hoàn hảo.",
   "course.aiIntroduce": "Giới thiệu bằng AI",
   "home.viewRoadmap": "Xem Lộ Trình",
-  "home.askAiRoadmap": "Hỏi AI về lộ trình"
+  "home.askAiRoadmap": "Hỏi AI về lộ trình",
+  "theme.dark": "Tối",
+  "theme.light": "Sáng",
+  "theme.mode": "Chế độ",
+  "admin.courses.enrollments.title": "Đăng ký cho:",
+  "admin.courses.enrollments.noEnrollments": "Chưa có học viên hoặc thực tập sinh nào đăng ký khóa học này.",
+  "form.close": "Đóng",
+  "header.admin": "Quản trị"
 }

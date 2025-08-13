@@ -5,11 +5,20 @@ import LandingPageHeader from "../components/LandingPageHeader";
 import Footer from "../components/Footer";
 import { Sparkles, BookOpen, Briefcase } from "lucide-react";
 
+/**
+ * Landing page tailored for learners, showcasing learning paths and AI consultation.
+ * @returns {JSX.Element} The rendered LearnerLandingPage component.
+ */
 const LearnerLandingPage = () => {
   const navigate = useNavigate();
   const [chatQuery, setChatQuery] = useState("");
   const { featuredCourses } = useLandingPageData();
 
+  /**
+   * Handles the submission of the main chat form.
+   * Navigates to the chat page with the user's query.
+   * @param {React.FormEvent} e - The form submission event.
+   */
   const handleChatSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (chatQuery.trim()) {
@@ -17,6 +26,10 @@ const LearnerLandingPage = () => {
     }
   };
 
+  /**
+   * Navigates to the chat page with a pre-filled query for a specific course consultation.
+   * @param {string} courseTitle - The title of the course to consult about.
+   */
   const handleCourseConsult = (courseTitle: string) => {
     const query = `Hãy tư vấn chi tiết về khóa học "${courseTitle}"`;
     navigate(`/chat?q=${encodeURIComponent(query)}`);

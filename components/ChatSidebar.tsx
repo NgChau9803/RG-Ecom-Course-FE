@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useChat } from '../contexts/ChatContext';
 import { useLanguage } from '../contexts/LanguageContext';
-import { PlusIcon, TrashIcon, ChatBubbleLeftIcon, PencilIcon } from './icons/Icons';
+import { Plus, Trash2, MessageSquare, Pencil } from 'lucide-react';
 
 /**
  * A sidebar component to display and manage chat sessions.
@@ -40,7 +40,7 @@ const ChatSidebar: React.FC = () => {
                     onClick={createSession}
                     className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-primary-hover transition-colors shadow-sm"
                 >
-                    <PlusIcon className="w-5 h-5" />
+                    <Plus className="w-5 h-5" />
                     {t('sidebar.newConversation')}
                 </button>
             </div>
@@ -52,7 +52,7 @@ const ChatSidebar: React.FC = () => {
                         className={`group flex items-center justify-between p-2 rounded-lg cursor-pointer mb-2 transition-colors ${activeSessionId === session.id ? 'bg-primary-light dark:bg-primary/30' : 'hover:bg-gray-200 dark:hover:bg-gray-700'}`}
                     >
                         <div className="flex items-center gap-2 overflow-hidden">
-                            <ChatBubbleLeftIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                            <MessageSquare className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                             {editingSessionId === session.id ? (
                                 <input
                                     type="text"
@@ -69,10 +69,10 @@ const ChatSidebar: React.FC = () => {
                         </div>
                         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button onClick={() => handleRename(session.id, session.title)} className="text-gray-500 hover:text-primary dark:hover:text-white p-1 rounded">
-                                <PencilIcon className="w-4 h-4" />
+                                <Pencil className="w-4 h-4" />
                             </button>
                             <button onClick={(e) => handleDelete(e, session.id)} className="text-gray-500 hover:text-red-500 dark:hover:text-red-400 p-1 rounded">
-                                <TrashIcon className="w-4 h-4" />
+                                <Trash2 className="w-4 h-4" />
                             </button>
                         </div>
                     </div>

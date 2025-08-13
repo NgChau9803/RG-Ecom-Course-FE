@@ -2,6 +2,13 @@ import React from "react";
 import { Users, BookOpen, Briefcase, UserCheck } from "lucide-react";
 import { useLanguage } from "../../contexts/LanguageContext";
 
+/**
+ * Props for the StatCard component.
+ * @property {React.ReactNode} icon - The icon to display in the card.
+ * @property {string} title - The title of the statistic.
+ * @property {string} value - The value of the statistic.
+ * @property {string} color - The background color class for the card.
+ */
 interface StatCardProps {
   icon: React.ReactNode;
   title: string;
@@ -9,6 +16,11 @@ interface StatCardProps {
   color: string;
 }
 
+/**
+ * A reusable card component to display a single statistic on the dashboard.
+ * @param {StatCardProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered StatCard component.
+ */
 const StatCard: React.FC<StatCardProps> = ({ icon, title, value, color }) => (
   <div
     className={`p-6 rounded-lg shadow-lg flex items-center space-x-4 ${color}`}
@@ -21,6 +33,10 @@ const StatCard: React.FC<StatCardProps> = ({ icon, title, value, color }) => (
   </div>
 );
 
+/**
+ * The main dashboard page for administrators.
+ * Displays key statistics and provides an overview of the platform's activity.
+ */
 const DashboardPage: React.FC = () => {
   const { t } = useLanguage();
   // Mock data for dashboard statistics
@@ -36,6 +52,7 @@ const DashboardPage: React.FC = () => {
       <h1 className="text-3xl font-bold mb-8 text-gray-800 dark:text-gray-200">
         {t("admin.dashboard.title")}
       </h1>
+      {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           icon={<Users size={32} className="text-white" />}

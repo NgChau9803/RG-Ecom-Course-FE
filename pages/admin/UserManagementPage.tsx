@@ -37,6 +37,10 @@ const mockUsers: User[] = [
   },
 ];
 
+/**
+ * Admin page for managing all users on the platform.
+ * Provides functionality to view, filter, add, edit, and delete users.
+ */
 const UserManagementPage: React.FC = () => {
   const { t } = useLanguage();
   const [users, setUsers] = useState<User[]>(mockUsers);
@@ -44,26 +48,38 @@ const UserManagementPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
+  // Filter users based on the selected role
   const filteredUsers = users.filter(
     (user) => filter === "all" || user.role === filter
   );
 
+  /**
+   * Opens the user form modal for adding or editing a user.
+   * @param {User | null} user - The user to edit, or null to add a new one.
+   */
   const handleOpenModal = (user: User | null) => {
     setSelectedUser(user);
     setIsModalOpen(true);
   };
 
+  /**
+   * Closes the user form modal.
+   */
   const handleCloseModal = () => {
     setSelectedUser(null);
     setIsModalOpen(false);
   };
 
+  /**
+   * Saves user data from the form modal (either creating or updating).
+   * @param {User} userData - The user data to save.
+   */
   const handleSaveUser = (userData: User) => {
     if (selectedUser) {
-      // Edit
+      // Edit existing user
       setUsers(users.map((u) => (u.id === selectedUser.id ? userData : u)));
     } else {
-      // Add
+      // Add new user
       setUsers([...users, userData]);
     }
     handleCloseModal();
@@ -76,23 +92,23 @@ const UserManagementPage: React.FC = () => {
       </h1>
 
       {/* Filters and Actions */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center space-x-4">
-          <div className="relative">
-            <Search
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-              size={20}
-            />
-            <input
-              type="text"
-              placeholder={t("admin.users.searchPlaceholder")}
-              className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-            />
+      <div className="mb-8 max-w-4xl mx-auto space-y-4">
+        <div className="relative">
+          <input
+            type="text"
+            placeholder={t("courses.searchPlaceholder")}
+            className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-700 rounded-full focus:ring-2 focus:ring-primary focus:border-primary transition-shadow bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200"
+            aria-label={t("courses.searchPlaceholder")}
+          />
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+            <Search />
           </div>
+        </div>
+        <div className="flex justify-center gap-4">
           <select
             onChange={(e) => setFilter(e.target.value as UserRole | "all")}
             value={filter}
-            className="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+            className="p-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-shadow bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200"
           >
             <option value="all">{t("admin.users.allRoles")}</option>
             <option value="admin">Admin</option>
@@ -101,6 +117,9 @@ const UserManagementPage: React.FC = () => {
             <option value="intern">Intern</option>
           </select>
         </div>
+      </div>
+
+      <div className="flex justify-end mb-6">
         <button
           onClick={() => handleOpenModal(null)}
           className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center space-x-2"
@@ -142,7 +161,7 @@ const UserManagementPage: React.FC = () => {
                 <td className="py-4 px-6 whitespace-nowrap">{user.email}</td>
                 <td className="py-4 px-6 whitespace-nowrap">
                   <span
-                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                     ${
                       user.role === "admin"
                         ? "bg-red-100 text-red-800"
@@ -186,6 +205,7 @@ const UserManagementPage: React.FC = () => {
           </tbody>
         </table>
       </div>
+      {/* User Form Modal */}
       <UserFormModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}

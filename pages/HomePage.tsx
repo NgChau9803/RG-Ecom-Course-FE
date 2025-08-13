@@ -12,18 +12,34 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
 
+/**
+ * Props for the HomePage component.
+ * @property {Course[]} courses - An array of all available courses.
+ * @property {(course: Course, analysis: string) => void} onSelectCourse - Callback function when a course is selected.
+ */
 interface HomePageProps {
   courses: Course[];
   onSelectCourse: (course: Course, analysis: string) => void;
 }
 
+/**
+ * The main landing page of the application.
+ * It features a hero section, a carousel, featured courses, and an AI chat prompt.
+ *
+ * @param {HomePageProps} props - The props for the component.
+ * @returns {JSX.Element} The rendered HomePage component.
+ */
 const HomePage: React.FC<HomePageProps> = ({ courses, onSelectCourse }) => {
   const { t, locale } = useLanguage();
   const navigate = useNavigate();
   const [initialMessage, setInitialMessage] = React.useState("");
   const [isAiLoading, setIsAiLoading] = React.useState<string | null>(null);
-  const featuredCourses = courses.slice(0, 4); // Get first 4 courses
+  const featuredCourses = courses.slice(0, 4); // Get first 4 courses for the featured section
 
+  /**
+   * Handles the action of getting an AI-generated introduction for a course.
+   * @param {Course} course - The course to introduce.
+   */
   const handleAiIntroduce = async (course: Course) => {
     setIsAiLoading(course.id);
     try {
@@ -41,6 +57,10 @@ const HomePage: React.FC<HomePageProps> = ({ courses, onSelectCourse }) => {
     }
   };
 
+  /**
+   * Handles the submission of the chat form, navigating to the chat page.
+   * @param {React.FormEvent} e - The form submission event.
+   */
   const handleChatSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (initialMessage.trim()) {
@@ -70,7 +90,7 @@ const HomePage: React.FC<HomePageProps> = ({ courses, onSelectCourse }) => {
               <NavLink
                 to="/courses"
                 className="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-hover transition-colors"
-              >
+  >
                 {t("home.viewRoadmap")}
               </NavLink>
               <button
@@ -80,7 +100,7 @@ const HomePage: React.FC<HomePageProps> = ({ courses, onSelectCourse }) => {
                   })
                 }
                 className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-              >
+  >
                 {t("home.askAiRoadmap")}
               </button>
             </div>
@@ -163,7 +183,7 @@ const HomePage: React.FC<HomePageProps> = ({ courses, onSelectCourse }) => {
               <button
                 type="submit"
                 className="bg-primary text-white font-semibold px-6 py-3 rounded-lg hover:bg-primary-hover transition-colors"
-              >
+  >
                 {t("chatbot.send")}
               </button>
             </form>

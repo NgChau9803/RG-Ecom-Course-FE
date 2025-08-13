@@ -1,9 +1,15 @@
 import { Briefcase, BookOpen, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
+/**
+ * A page that allows users to select their primary role (Intern or Learner).
+ * This selection directs them to the appropriate landing page.
+ * @returns {JSX.Element} The rendered SelectionPage component.
+ */
 const SelectionPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-800 dark:text-gray-200 p-4">
+      {/* Page Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-3">
           Chào mừng bạn!

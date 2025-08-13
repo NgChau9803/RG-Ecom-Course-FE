@@ -2,7 +2,7 @@ import React from 'react';
 import type { Course } from '../types';
 import { useAppSettings } from '../contexts/AppSettingsContext';
 import { useLanguage } from '../contexts/LanguageContext';
-import { XIcon, CheckCircleIcon, BookOpenIcon, TagIcon, BriefcaseIcon, ClockIcon, LevelIcon, HeartIcon } from './icons/Icons';
+import { X, CheckCircle, BookOpen, Tag, Briefcase, Clock, Signal, Heart } from 'lucide-react';
 
 /**
  * Props for the CourseModal component.
@@ -51,20 +51,20 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, course, anal
                   className="text-gray-400 hover:text-gray-600 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full p-2 transition-colors"
                   aria-label={t('modal.close')}
                 >
-                  <XIcon />
+                  <X />
                 </button>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6 text-sm">
-                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300"><BriefcaseIcon /> <span className="font-medium">{course.provider}</span></div>
-                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300"><ClockIcon /> <span className="font-medium">{course.duration}</span></div>
-                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300"><LevelIcon /> <span className="font-medium">{t(`level.${course.level}`)}</span></div>
+                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300"><Briefcase /> <span className="font-medium">{course.provider}</span></div>
+                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300"><Clock /> <span className="font-medium">{course.duration}</span></div>
+                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300"><Signal /> <span className="font-medium">{t(`level.${course.level}`)}</span></div>
             </div>
 
             {analysis && (
               <div className="bg-primary-light dark:bg-primary/20 border-l-4 border-primary text-primary-dark dark:text-gray-200 p-4 rounded-r-lg mb-6">
                 <div className="flex">
-                  <div className="py-1 flex-shrink-0"><CheckCircleIcon className="fill-current text-primary h-6 w-6 mr-4"/></div>
+                  <div className="py-1 flex-shrink-0"><CheckCircle className="fill-current text-primary h-6 w-6 mr-4"/></div>
                   <div>
                     <p className="font-bold text-gray-800 dark:text-white">{t('modal.analysisTitle')}</p>
                     <p className="text-sm text-gray-700 dark:text-gray-300">{analysis}</p>
@@ -75,11 +75,11 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, course, anal
 
             <div className="space-y-6">
                 <div>
-                    <h3 className="font-semibold text-lg text-gray-700 dark:text-gray-200 flex items-center gap-2 mb-2"><BookOpenIcon /> {t('modal.descriptionTitle')}</h3>
+                    <h3 className="font-semibold text-lg text-gray-700 dark:text-gray-200 flex items-center gap-2 mb-2"><BookOpen /> {t('modal.descriptionTitle')}</h3>
                     <p className="text-gray-600 dark:text-gray-400 whitespace-pre-wrap">{longDescription}</p>
                 </div>
                  <div>
-                    <h3 className="font-semibold text-lg text-gray-700 dark:text-gray-200 flex items-center gap-2 mb-2"><TagIcon /> {t('modal.topicsTitle')}</h3>
+                    <h3 className="font-semibold text-lg text-gray-700 dark:text-gray-200 flex items-center gap-2 mb-2"><Tag /> {t('modal.topicsTitle')}</h3>
                     <div className="flex flex-wrap gap-2">
                         {course.topics.map(topic => (
                             <span key={topic} className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 py-1 rounded-full text-sm font-medium">{topic}</span>
@@ -98,7 +98,7 @@ const CourseModal: React.FC<CourseModalProps> = ({ isOpen, onClose, course, anal
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600'
                   }`}
                 >
-                  <HeartIcon className={`w-5 h-5 ${isFavorite ? 'fill-red-500 text-red-500' : 'stroke-current'}`} />
+                  <Heart className={`w-5 h-5 ${isFavorite ? 'fill-red-500 text-red-500' : 'stroke-current'}`} />
                   <span>{isFavorite ? t('course.favorited') : t('course.favorite')}</span>
                 </button>
                 <button
