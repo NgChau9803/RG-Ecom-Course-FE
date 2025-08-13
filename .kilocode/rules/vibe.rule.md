@@ -1,6 +1,7 @@
-# Vibe Coding Style Guide
-
+# vibe.rule.md
 This document outlines the coding standards and best practices for the Vibe project. Adhering to these guidelines ensures consistency, readability, and maintainability of the codebase.
+
+## Guidelines
 
 ## 1. File and Directory Structure
 
@@ -14,6 +15,7 @@ This document outlines the coding standards and best practices for the Vibe proj
   - **`hooks/`**: Custom React hooks.
     - Hook file names should start with `use`, e.g., `useCourses.ts`.
   - **`locales/`**: Language files for internationalization.
+    - Newly added components or pages will have to have internationnalization: default is vi.json & secondary language is en.json
     - Files should be named after the language code, e.g., `en.json`.
   - **`pages/`**: Top-level page components that correspond to routes.
     - Page file names should be in PascalCase and end with `Page`, e.g., `CoursesPage.tsx`.
@@ -36,10 +38,9 @@ This document outlines the coding standards and best practices for the Vibe proj
 
 ## 3. Styling
 
-- **CSS Modules**: Use CSS Modules for component-level styling to avoid class name collisions.
-- **Naming Conventions**: Use BEM (Block, Element, Modifier) naming conventions for CSS classes.
-- **Global Styles**: Global styles should be defined in `index.css`.
-- **Styled Components**: Alternatively, use a CSS-in-JS library like `styled-components` or `emotion` for more dynamic styling.
+- **Tailwind CSS**: use Tailwind CSS for rapid UI development. 
+- All newly added components must be consistent with the previous (Example: an addition new search bar must be consistent with other search bar component in term of color, border, feeling, etc... )
+- Only accept icon usage from the library 'lucide-react' 
 
 ## 4. TypeScript
 
@@ -55,6 +56,25 @@ This document outlines the coding standards and best practices for the Vibe proj
 - **Error Handling**:
     - Use error boundaries to catch rendering errors in component trees.
     - Use `try...catch` blocks for asynchronous operations.
-- **Testing**:
-    - Write unit tests for components, hooks, and services.
-    - Use a testing library like React Testing Library and a test runner like Jest or Vitest.
+
+## 6. Documentation
+
+- **JSDoc**: All functions, classes, and complex types must be documented using JSDoc-style comments. This ensures that the codebase is easy to understand and that documentation can be automatically generated.
+- **Clarity**: Comments should be clear, concise, and explain the *why*, not the *what*. Assume the reader understands the language, but needs to know the purpose of the code.
+
+### JSDoc Example
+
+```typescript
+/**
+ * Renders a customizable button component.
+ *
+ * @param {ButtonProps} props - The props for the button component.
+ * @param {string} props.label - The text to display on the button.
+ * @param {'primary' | 'secondary'} [props.variant='primary'] - The button's style variant.
+ * @param {() => void} props.onClick - The function to call when the button is clicked.
+ * @returns {JSX.Element} The rendered button element.
+ */
+const Button = ({ label, variant = 'primary', onClick }: ButtonProps): JSX.Element => {
+  // ... component implementation
+};
+```
