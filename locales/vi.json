@@ -124,5 +124,10 @@
   "admin.courses.enrollments.title": "Đăng ký cho:",
   "admin.courses.enrollments.noEnrollments": "Chưa có học viên hoặc thực tập sinh nào đăng ký khóa học này.",
   "form.close": "Đóng",
-  "header.admin": "Quản trị"
+  "header.admin": "Quản trị",
+  "settings": "Cài đặt",
+  "darkMode": "Chế độ tối",
+  "lightMode": "Chế độ sáng",
+  "language": "Ngôn ngữ",
+  "logout": "Đăng xuất"
 }

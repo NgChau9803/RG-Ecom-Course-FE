@@ -124,5 +124,10 @@
   "admin.courses.enrollments.title": "Enrollments for:",
   "admin.courses.enrollments.noEnrollments": "No students or interns are enrolled in this course yet.",
   "form.close": "Close",
-  "header.admin": "Admin"
+  "header.admin": "Admin",
+  "settings": "Settings",
+  "darkMode": "Dark Mode",
+  "lightMode": "Light Mode",
+  "language": "Language",
+  "logout": "Logout"
 }

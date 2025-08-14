@@ -12,7 +12,7 @@ import { Sparkles, BookOpen, Briefcase } from "lucide-react";
 const LearnerLandingPage = () => {
   const navigate = useNavigate();
   const [chatQuery, setChatQuery] = useState("");
-  const { featuredCourses } = useLandingPageData();
+  const { featuredCourses, partnerLogos } = useLandingPageData();
 
   /**
    * Handles the submission of the main chat form.
@@ -56,13 +56,21 @@ const LearnerLandingPage = () => {
           <h1 className="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight">
             Nâng Cấp Kỹ Năng, Mở Rộng Tương Lai
           </h1>
-          <p className="text-lg md:text-xl mb-8 max-w-3xl">
-            Học từ chuyên gia, áp dụng kiến thức vào dự án thực tế và nắm bắt cơ
-            hội sự nghiệp.
+          <p className="text-lg md:text-xl mb-6 max-w-3xl">
+            Nền tảng của bạn để kết nối kiến thức với cơ hội.
           </p>
-          <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105">
-            Khám phá các lộ trình học
-          </button>
+          <p className="text-md md:text-lg mb-8 max-w-3xl text-gray-300">
+            Học từ chuyên gia, áp dụng kiến thức vào dự án thực tế và nắm bắt cơ
+            hội sự nghiệp với các đối tác hàng đầu của chúng tôi.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105">
+              Khám phá các lộ trình học
+            </button>
+            <button className="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full transition duration-300 hover:bg-white hover:text-black">
+              Nhận tư vấn miễn phí
+            </button>
+          </div>
         </div>
       </section>
 
@@ -112,6 +120,24 @@ const LearnerLandingPage = () => {
           </div>
         </div>
       </section>
+      {/* Partner Logos Section */}
+      <section className="py-12 bg-gray-100 dark:bg-gray-800">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-8">
+            Được Tin Tưởng Bởi Các Doanh Nghiệp Hàng Đầu
+          </h2>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+            {partnerLogos.map((logo, index) => (
+              <img
+                key={index}
+                src={logo}
+                alt={`Partner Logo ${index + 1}`}
+                className="h-10 md:h-12 object-contain"
+              />
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Featured Learning Paths Section */}
       <section className="py-20">
@@ -142,6 +168,14 @@ const LearnerLandingPage = () => {
                   <p className="text-gray-600 dark:text-gray-300 mb-4 flex-grow">
                     {course.description}
                   </p>
+                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+                    <span className="mr-4">
+                      <strong>Cấp độ:</strong> {course.level}
+                    </span>
+                    <span>
+                      <strong>Thời lượng:</strong> {course.duration}
+                    </span>
+                  </div>
                   <div className="mt-auto flex flex-col gap-2">
                     <button className="w-full bg-green-100 text-green-700 font-semibold py-2 px-4 rounded-lg hover:bg-green-200 dark:bg-green-900/50 dark:text-green-300 dark:hover:bg-green-900 transition duration-300">
                       Xem Chi Tiết Lộ Trình
