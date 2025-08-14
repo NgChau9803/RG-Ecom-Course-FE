@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { SunIcon, MoonIcon } from "lucide-react";
+import { SunIcon, MoonIcon, Globe } from "lucide-react";
 import { useAppSettings } from "../contexts/AppSettingsContext";
+import { useLanguage } from "../contexts/LanguageContext";
 
 interface LandingPageHeaderProps {
   logoText: string;
@@ -17,6 +18,12 @@ const LandingPageHeader: React.FC<LandingPageHeaderProps> = ({
   themeColor,
 }) => {
   const { theme, toggleTheme } = useAppSettings();
+  const { locale, setLocale, t } = useLanguage();
+
+  const toggleLanguage = () => {
+    const newLocale = locale === "vi" ? "en" : "vi";
+    setLocale(newLocale);
+  };
 
   const colorClasses = {
     purple: {
@@ -44,6 +51,13 @@ const LandingPageHeader: React.FC<LandingPageHeaderProps> = ({
           >
             {switchText}
           </Link>
+          <button
+            onClick={toggleLanguage}
+            className="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+            title={t("header.switchLanguage")}
+          >
+            <Globe size={20} />
+          </button>
           <button
             onClick={toggleTheme}
             className="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"

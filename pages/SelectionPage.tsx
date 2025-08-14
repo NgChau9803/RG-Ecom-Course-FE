@@ -1,5 +1,6 @@
 import { Briefcase, BookOpen, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useRef, useEffect } from "react";
 
 /**
  * A page that allows users to select their primary role (Intern or Learner).
@@ -7,8 +8,53 @@ import { Link } from "react-router-dom";
  * @returns {JSX.Element} The rendered SelectionPage component.
  */
 const SelectionPage = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const hasLooped = useRef(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleTimeUpdate = () => {
+      if (hasLooped.current && video.currentTime >= video.duration) {
+        video.currentTime = 4;
+        video.play();
+      }
+    };
+
+    const handleEnded = () => {
+      if (!hasLooped.current) {
+        hasLooped.current = true;
+      }
+      video.currentTime = 4.5;
+      video.play();
+    };
+
+    video.addEventListener("timeupdate", handleTimeUpdate);
+    video.addEventListener("ended", handleEnded);
+
+    return () => {
+      video.removeEventListener("timeupdate", handleTimeUpdate);
+      video.removeEventListener("ended", handleEnded);
+    };
+  }, []);
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-800 dark:text-gray-200 p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-800 dark:text-gray-200 p-4 relative">
+      {/* Change this line */}
+      <div className="rounded-xl mb-8 w-64 h-64 md:w-1/3 md:h-1/3 overflow-hidden ">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          playsInline
+          className="w-full h-full object-contain"
+        >
+          <source src="/character/NinjaGPT.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
       {/* Page Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-3">
