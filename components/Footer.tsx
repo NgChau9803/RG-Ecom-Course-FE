@@ -10,33 +10,33 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4 md:px-8 py-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="font-bold mb-2">App Name</h3>
+            <h3 className="font-bold mb-2">{t("home.title")}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Your AI learning companion.
+              {t("home.subtitle")}
             </p>
           </div>
           <div>
-            <h3 className="font-bold mb-2">Links</h3>
+            <h3 className="font-bold mb-2">{t("footer.about")}</h3>
             <ul className="text-sm space-y-2">
               <li>
                 <a href="#" className="hover:underline">
-                  Courses
+                  {t("footer.about")}
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  About Us
+                  {t("footer.careers")}
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Contact
+                  {t("footer.contact")}
                 </a>
               </li>
             </ul>
           </div>
           <div>
-            <h3 className="font-bold mb-2">Follow Us</h3>
+            <h3 className="font-bold mb-2">{t("footer.social")}</h3>
             <ul className="text-sm space-y-2">
               <li>
                 <a href="#" className="hover:underline">
@@ -56,23 +56,25 @@ const Footer: React.FC = () => {
             </ul>
           </div>
           <div>
-            <h3 className="font-bold mb-2">Legal</h3>
+            <h3 className="font-bold mb-2">{t("footer.legal")}</h3>
             <ul className="text-sm space-y-2">
               <li>
                 <a href="#" className="hover:underline">
-                  Privacy Policy
+                  {t("footer.privacy")}
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:underline">
-                  Terms of Service
+                  {t("footer.terms")}
                 </a>
               </li>
             </ul>
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500 dark:text-gray-400">
-          <p>&copy; {currentYear} App Name. All rights reserved.</p>
+          <p>
+            &copy; {currentYear} {t("home.title")}. {t("footer.rights")}
+          </p>
         </div>
       </div>
     </footer>

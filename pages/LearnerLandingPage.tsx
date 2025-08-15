@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import { useLandingPageData } from "../hooks/useLandingPageData";
+import { useCourses } from "../hooks/useCourses";
 import LandingPageHeader from "../components/LandingPageHeader";
 import Footer from "../components/Footer";
 import { Sparkles, BookOpen, Briefcase } from "lucide-react";
+import { useLanguage } from "../contexts/LanguageContext";
+import CourseFormModal from "../components/admin/CourseFormModal";
+import { Course } from "../types";
 
 /**
  * Landing page tailored for learners, showcasing learning paths and AI consultation.
@@ -12,7 +15,21 @@ import { Sparkles, BookOpen, Briefcase } from "lucide-react";
 const LearnerLandingPage = () => {
   const navigate = useNavigate();
   const [chatQuery, setChatQuery] = useState("");
-  const { featuredCourses, partnerLogos } = useLandingPageData();
+  const courses = useCourses();
+  const { t, locale } = useLanguage();
+  const featuredCourses = courses.slice(0, 3);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+
+  const handleOpenModal = (course: Course) => {
+    setSelectedCourse(course);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedCourse(null);
+    setIsModalOpen(false);
+  };
 
   /**
    * Handles the submission of the main chat form.
@@ -38,9 +55,9 @@ const LearnerLandingPage = () => {
   return (
     <div className="bg-gray-50 dark:bg-gray-950 text-gray-800 dark:text-gray-200">
       <LandingPageHeader
-        logoText="EduGrowth"
+        logoText="NinjaGPT"
         switchLink="/intern-landing"
-        switchText="Bạn là Thực tập sinh?"
+        switchText={t("header.allCourses")}
         themeColor="green"
       />
 
@@ -54,23 +71,14 @@ const LearnerLandingPage = () => {
       >
         <div className="bg-black bg-opacity-60 h-full flex flex-col justify-center items-center text-center px-4">
           <h1 className="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight">
-            Nâng Cấp Kỹ Năng, Mở Rộng Tương Lai
+            {t("learnerLanding.title")}
           </h1>
-          <p className="text-lg md:text-xl mb-6 max-w-3xl">
-            Nền tảng của bạn để kết nối kiến thức với cơ hội.
+          <p className="text-lg md:text-xl mb-8 max-w-3xl">
+            {t("learnerLanding.subtitle")}
           </p>
-          <p className="text-md md:text-lg mb-8 max-w-3xl text-gray-300">
-            Học từ chuyên gia, áp dụng kiến thức vào dự án thực tế và nắm bắt cơ
-            hội sự nghiệp với các đối tác hàng đầu của chúng tôi.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105">
-              Khám phá các lộ trình học
-            </button>
-            <button className="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full transition duration-300 hover:bg-white hover:text-black">
-              Nhận tư vấn miễn phí
-            </button>
-          </div>
+          <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105">
+            {t("learnerLanding.callToAction")}
+          </button>
         </div>
       </section>
 
@@ -78,7 +86,7 @@ const LearnerLandingPage = () => {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-12">
-            Tại Sao Chọn Chúng Tôi?
+            {t("learnerLanding.benefits.title")}
           </h2>
           <div className="grid md:grid-cols-3 gap-12">
             <div className="feature flex flex-col items-center">
@@ -86,11 +94,10 @@ const LearnerLandingPage = () => {
                 <BookOpen className="w-8 h-8 text-green-600 dark:text-green-400" />
               </div>
               <h3 className="text-xl font-semibold mb-2 dark:text-white">
-                Học Từ Chuyên Gia
+                {t("learnerLanding.benefits.item1.title")}
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Giảng viên là các chuyên gia đầu ngành với nhiều năm kinh nghiệm
-                thực chiến.
+                {t("learnerLanding.benefits.item1.description")}
               </p>
             </div>
             <div className="feature flex flex-col items-center">
@@ -98,11 +105,10 @@ const LearnerLandingPage = () => {
                 <Briefcase className="w-8 h-8 text-green-600 dark:text-green-400" />
               </div>
               <h3 className="text-xl font-semibold mb-2 dark:text-white">
-                Dự Án Thực Tế
+                {t("learnerLanding.benefits.item2.title")}
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Xây dựng portfolio ấn tượng qua các dự án mô phỏng theo yêu cầu
-                từ doanh nghiệp.
+                {t("learnerLanding.benefits.item2.description")}
               </p>
             </div>
             <div className="feature flex flex-col items-center">
@@ -110,11 +116,10 @@ const LearnerLandingPage = () => {
                 <Sparkles className="w-8 h-8 text-green-600 dark:text-green-400" />
               </div>
               <h3 className="text-xl font-semibold mb-2 dark:text-white">
-                Cơ Hội Thực Tập
+                {t("learnerLanding.benefits.item3.title")}
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Lợi thế cạnh tranh độc quyền với cam kết cơ hội thực tập tại các
-                đối tác lớn.
+                {t("learnerLanding.benefits.item3.description")}
               </p>
             </div>
           </div>
@@ -143,30 +148,34 @@ const LearnerLandingPage = () => {
       <section className="py-20">
         <div className="container mx-auto px-6">
           <h2 className="text-4xl font-bold text-center text-gray-800 dark:text-white mb-12">
-            Các Lộ Trình Học Tập Nổi Bật
+            {t("learnerLanding.featured.title")}
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredCourses.map((course, index) => (
+            {featuredCourses.map((course) => (
               <div
-                key={index}
+                key={course.id}
                 className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-shadow"
               >
                 <div className="relative">
                   <img
-                    src={course.image}
+                    src={
+                      "https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=1974&auto=format&fit=crop"
+                    }
                     alt={course.title}
                     className="w-full h-56 object-cover"
                   />
                   <div className="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold py-1 px-3 rounded-full shadow-md">
-                    KÈM CƠ HỘI THỰC TẬP
+                    {t("course.internshipOpportunity")}
                   </div>
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                    {course.title}
+                    {locale === "vi" ? course.title_vi : course.title}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 flex-grow">
-                    {course.description}
+                    {locale === "vi"
+                      ? course.description_vi
+                      : course.description}
                   </p>
                   <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
                     <span className="mr-4">
@@ -177,15 +186,22 @@ const LearnerLandingPage = () => {
                     </span>
                   </div>
                   <div className="mt-auto flex flex-col gap-2">
-                    <button className="w-full bg-green-100 text-green-700 font-semibold py-2 px-4 rounded-lg hover:bg-green-200 dark:bg-green-900/50 dark:text-green-300 dark:hover:bg-green-900 transition duration-300">
-                      Xem Chi Tiết Lộ Trình
+                    <button
+                      onClick={() => handleOpenModal(course)}
+                      className="w-full bg-green-100 text-green-700 font-semibold py-2 px-4 rounded-lg hover:bg-green-200 dark:bg-green-900/50 dark:text-green-300 dark:hover:bg-green-900 transition duration-300"
+                    >
+                      {t("learnerLanding.featured.callToAction")}
                     </button>
                     <button
-                      onClick={() => handleCourseConsult(course.title)}
+                      onClick={() =>
+                        handleCourseConsult(
+                          locale === "vi" ? course.title_vi! : course.title
+                        )
+                      }
                       className="w-full bg-blue-100 text-blue-700 font-semibold py-2 px-4 rounded-lg hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-300 dark:hover:bg-blue-900 transition duration-300 flex items-center justify-center gap-2"
                     >
                       <Sparkles size={16} />
-                      Tư vấn bằng AI
+                      {t("course.aiIntroduce")}
                     </button>
                   </div>
                 </div>
@@ -199,11 +215,10 @@ const LearnerLandingPage = () => {
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
-            Cần Tư Vấn Lộ Trình Riêng?
+            {t("home.chat.title")}
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-            Nhập câu hỏi của bạn, trợ lý AI của chúng tôi sẽ giúp bạn xây dựng
-            lộ trình học tập phù hợp nhất.
+            {t("home.chat.subtitle")}
           </p>
           <form
             onSubmit={handleChatSubmit}
@@ -213,20 +228,27 @@ const LearnerLandingPage = () => {
               type="text"
               value={chatQuery}
               onChange={(e) => setChatQuery(e.target.value)}
-              placeholder="Ví dụ: 'Tôi muốn trở thành một Data Scientist'"
+              placeholder={t("chatbot.inputPlaceholder")}
               className="flex-grow p-3 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-l-md focus:ring-2 focus:ring-green-500 focus:outline-none"
             />
             <button
               type="submit"
               className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-r-md transition duration-300"
             >
-              Gửi cho AI
+              {t("chatbot.send")}
             </button>
           </form>
         </div>
       </section>
 
       <Footer />
+      <CourseFormModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        course={selectedCourse}
+        onSave={() => {}}
+        isReadOnly
+      />
     </div>
   );
 };

@@ -1,46 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Course } from "../../types";
 import { PlusCircle, Search, Eye, Edit, Trash2 } from "lucide-react";
 import CourseFormModal from "../../components/admin/CourseFormModal";
 import EnrollmentDetailsModal from "../../components/admin/EnrollmentDetailsModal";
 import { useLanguage } from "../../contexts/LanguageContext";
-
-// Mock data for courses
-const mockCourses: Course[] = [
-  {
-    id: "1",
-    title: "React for Beginners",
-    provider: "Company A",
-    description: "desc",
-    longDescription: "long desc",
-    duration: "4 weeks",
-    level: "Beginner",
-    topics: ["React", "JavaScript"],
-    category: "Web Development",
-  },
-  {
-    id: "2",
-    title: "Advanced Node.js",
-    provider: "Admin",
-    description: "desc",
-    longDescription: "long desc",
-    duration: "6 weeks",
-    level: "Advanced",
-    topics: ["Node.js", "Backend"],
-    category: "Web Development",
-  },
-  {
-    id: "3",
-    title: "UI/UX Design Fundamentals",
-    provider: "Company B",
-    description: "desc",
-    longDescription: "long desc",
-    duration: "3 weeks",
-    level: "Intermediate",
-    topics: ["UI", "UX", "Figma"],
-    category: "Design",
-  },
-];
+import { useCourses } from "../../hooks/useCourses";
 
 /**
  * Admin page for managing courses.
@@ -48,10 +12,20 @@ const mockCourses: Course[] = [
  */
 const CourseManagementPage: React.FC = () => {
   const { t } = useLanguage();
-  const [courses, setCourses] = useState<Course[]>(mockCourses);
+  const allCourses = useCourses();
+  const [courses, setCourses] = useState<Course[]>(allCourses);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEnrollmentModalOpen, setIsEnrollmentModalOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredCourses = useMemo(() => {
+    return courses.filter(
+      (course) =>
+        course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        course.provider.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [courses, searchTerm]);
 
   /**
    * Opens the course form modal for adding or editing a course.
@@ -93,14 +67,12 @@ const CourseManagementPage: React.FC = () => {
    */
   const handleSaveCourse = (courseData: Course) => {
     if (selectedCourse && "id" in selectedCourse) {
-      // Edit existing course
       setCourses(
         courses.map((c) =>
           c.id === selectedCourse.id ? { ...c, ...courseData } : c
         )
       );
     } else {
-      // Add new course
       const newCourse = { ...courseData, id: (courses.length + 1).toString() }; // Mock ID
       setCourses([...courses, newCourse]);
     }
@@ -125,6 +97,8 @@ const CourseManagementPage: React.FC = () => {
             <input
               type="text"
               placeholder={t("admin.courses.searchPlaceholder")}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
             />
           </div>
@@ -158,11 +132,11 @@ const CourseManagementPage: React.FC = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {courses.map((course) => (
+            {filteredCourses.map((course) => (
               <tr
                 key={course.id}
                 className="hover:bg-gray-50 dark:hover:bg-gray-600"
-              >
+>
                 <td className="py-4 px-6 whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {course.title}
                 </td>

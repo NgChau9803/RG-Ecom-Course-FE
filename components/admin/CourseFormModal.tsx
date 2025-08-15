@@ -7,6 +7,7 @@ interface CourseFormModalProps {
   onClose: () => void;
   onSave: (course: Course) => void;
   course: Course | null;
+  isReadOnly?: boolean;
 }
 
 const CourseFormModal: React.FC<CourseFormModalProps> = ({
@@ -14,6 +15,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
   onClose,
   onSave,
   course,
+  isReadOnly,
 }) => {
   const { t } = useLanguage();
   const [formData, setFormData] = useState<Partial<Course>>(course || {});
@@ -57,6 +59,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
               onChange={handleChange}
               placeholder={t("form.course.title")}
               className="p-2 border rounded"
+              disabled={isReadOnly}
             />
             <input
               name="provider"
@@ -64,6 +67,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
               onChange={handleChange}
               placeholder={t("form.course.provider")}
               className="p-2 border rounded"
+              disabled={isReadOnly}
             />
             <input
               name="duration"
@@ -71,12 +75,14 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
               onChange={handleChange}
               placeholder={t("form.course.duration")}
               className="p-2 border rounded"
+              disabled={isReadOnly}
             />
             <select
               name="level"
               value={formData.level || "Beginner"}
               onChange={handleChange}
               className="p-2 border rounded"
+              disabled={isReadOnly}
             >
               <option value="Beginner">{t("level.Beginner")}</option>
               <option value="Intermediate">{t("level.Intermediate")}</option>
@@ -88,6 +94,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
               onChange={handleChange}
               placeholder={t("form.course.category")}
               className="p-2 border rounded"
+              disabled={isReadOnly}
             />
             <input
               name="topics"
@@ -100,6 +107,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
               }
               placeholder={t("form.course.topics")}
               className="p-2 border rounded"
+              disabled={isReadOnly}
             />
           </div>
           <textarea
@@ -108,6 +116,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             onChange={handleChange}
             placeholder={t("form.course.shortDescription")}
             className="p-2 border rounded w-full h-24"
+            disabled={isReadOnly}
           ></textarea>
           <textarea
             name="longDescription"
@@ -115,6 +124,7 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             onChange={handleChange}
             placeholder={t("form.course.longDescription")}
             className="p-2 border rounded w-full h-40"
+            disabled={isReadOnly}
           ></textarea>
           <div className="flex justify-end space-x-4">
             <button
@@ -124,12 +134,14 @@ const CourseFormModal: React.FC<CourseFormModalProps> = ({
             >
               {t("form.cancel")}
             </button>
-            <button
-              type="submit"
-              className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
-            >
-              {t("form.saveCourse")}
-            </button>
+            {!isReadOnly && (
+              <button
+                type="submit"
+                className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+              >
+                {t("form.saveCourse")}
+              </button>
+            )}
           </div>
         </form>
       </div>
