@@ -36,6 +36,8 @@ export const useLandingPageData = () => {
         "Trở thành chuyên gia phát triển web toàn diện với React, Node.js, và cơ sở dữ liệu.",
       image:
         "https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=2070&auto=format&fit=crop",
+      level: "Tất cả cấp độ",
+      duration: "6 tháng",
     },
     {
       title: "Chuyên Sâu Về Khoa Học Dữ Liệu",
@@ -43,6 +45,8 @@ export const useLandingPageData = () => {
         "Nắm vững Python, các thuật toán Machine Learning và kỹ thuật trực quan hóa dữ liệu.",
       image:
         "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
+      level: "Trung cấp",
+      duration: "9 tháng",
     },
     {
       title: "Thiết Kế UI/UX Chuyên Nghiệp",
@@ -50,6 +54,8 @@ export const useLandingPageData = () => {
         "Học cách xây dựng trải nghiệm người dùng hấp dẫn và giao diện đẹp mắt với Figma.",
       image:
         "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=2070&auto=format&fit=crop",
+      level: "Người mới bắt đầu",
+      duration: "4 tháng",
     },
   ];
 

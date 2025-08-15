@@ -1,13 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { HashRouter } from 'react-router-dom';
-import App from './App';
-import { AppSettingsProvider } from './contexts/AppSettingsContext';
-import { LanguageProvider } from './contexts/LanguageContext';
-import { RecommendationProvider } from './contexts/RecommendationContext';
-import { ChatProvider } from './contexts/ChatContext';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { HashRouter } from "react-router-dom";
+import App from "./App";
+import { AppSettingsProvider } from "./contexts/AppSettingsContext";
+import { LanguageProvider } from "./contexts/LanguageContext";
+import { RecommendationProvider } from "./contexts/RecommendationContext";
+import { ChatProvider } from "./contexts/ChatContext";
+import { UserProvider } from "./contexts/UserContext";
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
 if (!rootElement) {
   throw new Error("Could not find root element to mount to");
 }
@@ -17,13 +18,15 @@ root.render(
   <React.StrictMode>
     <LanguageProvider>
       <AppSettingsProvider>
-        <RecommendationProvider>
-          <ChatProvider>
-            <HashRouter>
-              <App />
-            </HashRouter>
-          </ChatProvider>
-        </RecommendationProvider>
+        <UserProvider>
+          <RecommendationProvider>
+            <ChatProvider>
+              <HashRouter>
+                <App />
+              </HashRouter>
+            </ChatProvider>
+          </RecommendationProvider>
+        </UserProvider>
       </AppSettingsProvider>
     </LanguageProvider>
   </React.StrictMode>

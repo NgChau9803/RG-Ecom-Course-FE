@@ -10,7 +10,7 @@ import { Sun, Moon, Trash2 } from "lucide-react";
  */
 const SettingsPage: React.FC = () => {
   const { theme, toggleTheme } = useAppSettings();
-  const { locale, setLocale, t } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
   const { chatSessions, deleteSession } = useChat();
 
   /**
@@ -28,7 +28,7 @@ const SettingsPage: React.FC = () => {
    * @param {Locale} lang - The language to set.
    */
   const handleSetLocale = (lang: Locale) => {
-    setLocale(lang);
+    setLanguage(lang);
   };
 
   return (
@@ -80,7 +80,7 @@ const SettingsPage: React.FC = () => {
           <button
             onClick={() => handleSetLocale("vi")}
             className={`w-full py-2 px-4 rounded-md text-sm font-semibold transition-colors ${
-              locale === "vi"
+              language === "vi"
                 ? "bg-white dark:bg-gray-800 text-primary shadow"
                 : "text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
             }`}
@@ -90,7 +90,7 @@ const SettingsPage: React.FC = () => {
           <button
             onClick={() => handleSetLocale("en")}
             className={`w-full py-2 px-4 rounded-md text-sm font-semibold transition-colors ${
-              locale === "en"
+              language === "en"
                 ? "bg-white dark:bg-gray-800 text-primary shadow"
                 : "text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
             }`}

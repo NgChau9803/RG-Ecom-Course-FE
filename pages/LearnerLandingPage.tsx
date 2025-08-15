@@ -125,6 +125,24 @@ const LearnerLandingPage = () => {
           </div>
         </div>
       </section>
+      {/* Partner Logos Section */}
+      <section className="py-12 bg-gray-100 dark:bg-gray-800">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-8">
+            Được Tin Tưởng Bởi Các Doanh Nghiệp Hàng Đầu
+          </h2>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+            {partnerLogos.map((logo, index) => (
+              <img
+                key={index}
+                src={logo}
+                alt={`Partner Logo ${index + 1}`}
+                className="h-10 md:h-12 object-contain"
+              />
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Featured Learning Paths Section */}
       <section className="py-20">
@@ -159,6 +177,14 @@ const LearnerLandingPage = () => {
                       ? course.description_vi
                       : course.description}
                   </p>
+                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+                    <span className="mr-4">
+                      <strong>Cấp độ:</strong> {course.level}
+                    </span>
+                    <span>
+                      <strong>Thời lượng:</strong> {course.duration}
+                    </span>
+                  </div>
                   <div className="mt-auto flex flex-col gap-2">
                     <button
                       onClick={() => handleOpenModal(course)}
