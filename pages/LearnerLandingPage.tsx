@@ -16,7 +16,7 @@ const LearnerLandingPage = () => {
   const navigate = useNavigate();
   const [chatQuery, setChatQuery] = useState("");
   const courses = useCourses();
-  const { t, locale } = useLanguage();
+  const { t, language } = useLanguage();
   const featuredCourses = courses.slice(0, 3);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -48,9 +48,17 @@ const LearnerLandingPage = () => {
    * @param {string} courseTitle - The title of the course to consult about.
    */
   const handleCourseConsult = (courseTitle: string) => {
-    const query = `Hãy tư vấn chi tiết về khóa học "${courseTitle}"`;
+    const query = t("course.consultationPrompt", { courseTitle });
     navigate(`/chat?q=${encodeURIComponent(query)}`);
   };
+
+  const partnerLogos = [
+    "https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg",
+    "https://tailwindui.com/img/logos/158x48/reform-logo-gray-900.svg",
+    "https://tailwindui.com/img/logos/158x48/tuple-logo-gray-900.svg",
+    "https://tailwindui.com/img/logos/158x48/savvycal-logo-gray-900.svg",
+    "https://tailwindui.com/img/logos/158x48/statamic-logo-gray-900.svg",
+  ];
 
   return (
     <div className="bg-gray-50 dark:bg-gray-950 text-gray-800 dark:text-gray-200">
@@ -129,7 +137,7 @@ const LearnerLandingPage = () => {
       <section className="py-12 bg-gray-100 dark:bg-gray-800">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-8">
-            Được Tin Tưởng Bởi Các Doanh Nghiệp Hàng Đầu
+            {t("learnerLanding.partners.title")}
           </h2>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
             {partnerLogos.map((logo, index) => (
@@ -170,19 +178,19 @@ const LearnerLandingPage = () => {
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                    {locale === "vi" ? course.title_vi : course.title}
+                    {language === "vi" ? course.title_vi : course.title}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 flex-grow">
-                    {locale === "vi"
+                    {language === "vi"
                       ? course.description_vi
                       : course.description}
                   </p>
                   <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
                     <span className="mr-4">
-                      <strong>Cấp độ:</strong> {course.level}
+                      <strong>{t("course.level")}:</strong> {course.level}
                     </span>
                     <span>
-                      <strong>Thời lượng:</strong> {course.duration}
+                      <strong>{t("course.duration")}:</strong> {course.duration}
                     </span>
                   </div>
                   <div className="mt-auto flex flex-col gap-2">
@@ -195,7 +203,7 @@ const LearnerLandingPage = () => {
                     <button
                       onClick={() =>
                         handleCourseConsult(
-                          locale === "vi" ? course.title_vi! : course.title
+                          language === "vi" ? course.title_vi! : course.title
                         )
                       }
                       className="w-full bg-blue-100 text-blue-700 font-semibold py-2 px-4 rounded-lg hover:bg-blue-200 dark:bg-blue-900/50 dark:text-blue-300 dark:hover:bg-blue-900 transition duration-300 flex items-center justify-center gap-2"

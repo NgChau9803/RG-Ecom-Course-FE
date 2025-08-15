@@ -8,6 +8,7 @@ import {
   ChevronLeft,
   SunIcon,
   MoonIcon,
+  FileText,
 } from "lucide-react";
 import { useAppSettings } from "../../contexts/AppSettingsContext";
 import { useLanguage } from "../../contexts/LanguageContext";
@@ -67,6 +68,17 @@ const AdminSidebar: React.FC = () => {
           >
             <Shield className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-white" />
             <span className="text-sm font-medium">{t("admin.menu.roles")}</span>
+          </NavLink>
+          <NavLink
+            to="/admin/cvs"
+            className={({ isActive }) =>
+              `${linkBaseClass} ${
+                isActive ? activeLinkClass : inactiveLinkClass
+              }`
+            }
+          >
+            <FileText className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-white" />
+            <span className="text-sm font-medium">{t("admin.menu.cvs")}</span>
           </NavLink>
         </nav>
       </div>

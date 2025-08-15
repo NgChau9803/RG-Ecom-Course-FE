@@ -16,7 +16,7 @@ const NavItem: React.FC<{ to: string; children: React.ReactNode }> = ({
   const inactiveLinkClass =
     "text-gray-500 hover:bg-gray-200 hover:text-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white";
   const linkBaseClass =
-    "flex items-center gap-3 px-3 py-2 rounded-lg font-medium transition-colors text-sm";
+    "flex items-center gap-3 px-4 py-2 rounded-lg font-medium transition-colors text-sm";
 
   return (
     <NavLink

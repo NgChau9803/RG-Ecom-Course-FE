@@ -14,6 +14,7 @@ import UserManagementPage from "./pages/admin/UserManagementPage";
 import RoleManagementPage from "./pages/admin/RoleManagementPage";
 import CourseManagementPage from "./pages/admin/CourseManagementPage";
 import UserDetailPage from "./pages/admin/UserDetailPage";
+import CVManagementPage from "./pages/admin/CVManagementPage";
 import ChatPage from "./pages/ChatPage";
 import SelectionPage from "./pages/SelectionPage";
 import InternLandingPage from "./pages/InternLandingPage";
@@ -84,6 +85,7 @@ function App() {
           <Route path="users/:userId" element={<UserDetailPage />} />
           <Route path="roles" element={<RoleManagementPage />} />
           <Route path="courses" element={<CourseManagementPage />} />
+          <Route path="cvs" element={<CVManagementPage />} />
         </Route>
       </Routes>
 
